@@ -1,0 +1,10 @@
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\bin\Debug\Proyecto 2---Killer Sudoku.exe.config
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\bin\Debug\Proyecto 2---Killer Sudoku.exe
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\bin\Debug\Proyecto 2---Killer Sudoku.pdb
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto 2---Killer Sudoku.csprojAssemblyReference.cache
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto_2___Killer_Sudoku.Form1.resources
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto_2___Killer_Sudoku.Properties.Resources.resources
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto 2---Killer Sudoku.csproj.GenerateResource.cache
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto 2---Killer Sudoku.csproj.CoreCompileInputs.cache
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto 2---Killer Sudoku.exe
+C:\Users\aleta\Desktop\Killer Sudoku\Proyecto-2---Killer-Sudoku\Proyecto 2---Killer Sudoku\Proyecto 2---Killer Sudoku\obj\Debug\Proyecto 2---Killer Sudoku.pdb

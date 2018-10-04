@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Proyecto_2___Killer_Sudoku
 {
     public partial class Form1 : Form
     {
         private Generador _generador;
+        TextWriter archivoSudoku;
         public Form1()
         {
 
@@ -37,7 +39,7 @@ namespace Proyecto_2___Killer_Sudoku
                         int x = rnd1.Next(1, 3);
                         if (x == 1)
                         {
-                            if (this._generador.Numbers[clm, row] >= 10)
+                            if (this._generador.Numbers[row, clm] >= 10)
                             {
                                 int n = this._generador.Numbers[row, clm];
                                 string hex = n.ToString("X");
@@ -48,6 +50,7 @@ namespace Proyecto_2___Killer_Sudoku
                                 box.Text = this._generador.Numbers[row, clm].ToString();
 
                             }
+                            this._generador.sudoku[row, clm] = this._generador.Numbers[row, clm];
                         }
                         foreach (Piece pieza in _generador.pieces)
                         {
@@ -61,13 +64,16 @@ namespace Proyecto_2___Killer_Sudoku
                                         resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] + _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
                                         + _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] + _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
                                         simbolo = "+";
+                                        pieza.resultado = resultado;
                                     }
                                     else
                                     {
                                         resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] * _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
                                         * _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] * _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
                                         simbolo = "x";
+                                        pieza.resultado = resultado;
                                     }
+                                    this._generador.sudoku[row, clm] = 0;
                                     concatenado = String.Concat(simbolo, resultado);
                                     box.Text = concatenado;
 
@@ -146,6 +152,7 @@ namespace Proyecto_2___Killer_Sudoku
                         }
                     }
                 }
+            Imprimir(this._generador.sudoku);
             }
         
         private void Clear()
@@ -217,9 +224,42 @@ namespace Proyecto_2___Killer_Sudoku
             if (!(e.KeyChar == ' ' | e.KeyChar == '0')) return;
             e.KeyChar = (char)Keys.Back;
         }
- 
 
-        private void PanelGenerador_Paint(object sender, PaintEventArgs e)
+        public void Imprimir(int[,] mat)
+        {
+            archivoSudoku = new StreamWriter("killerSudoku.txt");
+            string linea="";
+            for (int f = 0; f < mat.GetLength(0); f++)
+            {
+                for (int c = 0; c < mat.GetLength(1); c++)
+                {
+                    linea=String.Concat(linea, mat[f, c], " ");
+                    
+                }
+                archivoSudoku.WriteLine(linea);
+                linea = "";
+            }
+            string otro = "";
+            foreach (Piece pieza in _generador.pieces)
+            {
+                if (pieza.Figure != 1)
+                {
+                    otro = String.Concat(pieza.Figure, "-", pieza.symbol, "-", pieza.resultado, "-", pieza.cell1[0], ",", pieza.cell1[1]
+                        , "-", pieza.cell2[0], ",", pieza.cell2[1], "-", pieza.cell3[0], ",", pieza.cell3[1], "-", pieza.cell4[0],",",pieza.cell4[1]);
+                    archivoSudoku.WriteLine(otro);
+                }
+                else
+                {
+                    otro = otro = String.Concat(pieza.Figure, "-", pieza.symbol, "-", pieza.resultado, "-", pieza.cell1[0], ",", pieza.cell1[1]);
+                    archivoSudoku.WriteLine(otro);
+                }
+            }
+            archivoSudoku.Close();
+        }
+
+
+
+            private void PanelGenerador_Paint(object sender, PaintEventArgs e)
         {
             var height = GetTextBoxAt(0, 3).Top - GetTextBoxAt(0, 2).Bottom;
 

@@ -15,6 +15,7 @@ namespace Proyecto_2___Killer_Sudoku
         public int[,] piezas;
         public int[] piezasAnterior = new int[10];
         public int contadordePiezas = 0;
+        public int[,] sudoku;
 
         public Generador() {
             NumberGenerator();
@@ -27,6 +28,7 @@ namespace Proyecto_2___Killer_Sudoku
             Numbers = new int[ColmAndRow, ColmAndRow];
             pieces = new List<Piece>();
             piezas = new int[ColmAndRow, ColmAndRow];
+            sudoku= new int[ColmAndRow, ColmAndRow];
             for (int i = 0; i < ColmAndRow; i++) {
                 for (int j=0; j< ColmAndRow; j++){
                     Numbers[i, j] = (i*3+i/3+j)% ColmAndRow + 1;

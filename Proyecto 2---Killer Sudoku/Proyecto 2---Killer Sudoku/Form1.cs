@@ -22,25 +22,11 @@ namespace Proyecto_2___Killer_Sudoku
         }
         private void ShowGame() {
             this._generador = new Generador();
-            Console.WriteLine(_generador.Numbers[0,0].ToString()+ _generador.Numbers[0, 1].ToString() + _generador.Numbers[0, 2].ToString() + _generador.Numbers[0, 3].ToString()
-                + _generador.Numbers[0, 4].ToString() + _generador.Numbers[0, 5].ToString() + _generador.Numbers[0, 6].ToString() + _generador.Numbers[0, 7].ToString() + _generador.Numbers[0, 8].ToString());
-            Console.WriteLine(_generador.Numbers[1, 0].ToString() + _generador.Numbers[1, 1].ToString() + _generador.Numbers[1, 2].ToString() + _generador.Numbers[1, 3].ToString()
-              + _generador.Numbers[1, 4].ToString() + _generador.Numbers[1, 5].ToString() + _generador.Numbers[1, 6].ToString() + _generador.Numbers[1, 7].ToString() + _generador.Numbers[1, 8].ToString());
-            Console.WriteLine(_generador.Numbers[2, 0].ToString() + _generador.Numbers[2, 1].ToString() + _generador.Numbers[2, 2].ToString() + _generador.Numbers[2, 3].ToString()
-                          + _generador.Numbers[2, 4].ToString() + _generador.Numbers[2, 5].ToString() + _generador.Numbers[2, 6].ToString() + _generador.Numbers[2, 7].ToString() + _generador.Numbers[2, 8].ToString());
-            Console.WriteLine(_generador.Numbers[3, 0].ToString() + _generador.Numbers[3, 1].ToString() + _generador.Numbers[3, 2].ToString() + _generador.Numbers[3, 3].ToString()
-              + _generador.Numbers[3, 4].ToString() + _generador.Numbers[3, 5].ToString() + _generador.Numbers[3, 6].ToString() + _generador.Numbers[3, 7].ToString() + _generador.Numbers[3, 8].ToString());
-            Console.WriteLine(_generador.Numbers[4, 0].ToString() + _generador.Numbers[4, 1].ToString() + _generador.Numbers[4, 2].ToString() + _generador.Numbers[4, 3].ToString()
-                          + _generador.Numbers[4, 4].ToString() + _generador.Numbers[4, 5].ToString() + _generador.Numbers[4, 6].ToString() + _generador.Numbers[4, 7].ToString() + _generador.Numbers[4, 8].ToString());
-            Console.WriteLine(_generador.Numbers[5, 0].ToString() + _generador.Numbers[5, 1].ToString() + _generador.Numbers[5, 2].ToString() + _generador.Numbers[5, 3].ToString()
-                          + _generador.Numbers[5, 4].ToString() + _generador.Numbers[5, 5].ToString() + _generador.Numbers[5, 6].ToString() + _generador.Numbers[5, 7].ToString() + _generador.Numbers[5, 8].ToString());
-            Console.WriteLine(_generador.Numbers[6, 0].ToString() + _generador.Numbers[6, 1].ToString() + _generador.Numbers[6, 2].ToString() + _generador.Numbers[6, 3].ToString()
-                          + _generador.Numbers[6, 4].ToString() + _generador.Numbers[6, 5].ToString() + _generador.Numbers[6, 6].ToString() + _generador.Numbers[6, 7].ToString() + _generador.Numbers[6, 8].ToString());
-            Console.WriteLine(_generador.Numbers[7, 0].ToString() + _generador.Numbers[7, 1].ToString() + _generador.Numbers[7, 2].ToString() + _generador.Numbers[7, 3].ToString()
-                          + _generador.Numbers[7, 4].ToString() + _generador.Numbers[7, 5].ToString() + _generador.Numbers[7, 6].ToString() + _generador.Numbers[7, 7].ToString() + _generador.Numbers[7, 8].ToString());
-            Console.WriteLine(_generador.Numbers[8, 0].ToString() + _generador.Numbers[8, 1].ToString() + _generador.Numbers[8, 2].ToString() + _generador.Numbers[8, 3].ToString()
-              + _generador.Numbers[8, 4].ToString() + _generador.Numbers[8, 5].ToString() + _generador.Numbers[8, 6].ToString() + _generador.Numbers[8, 7].ToString() + _generador.Numbers[8, 8].ToString());
-
+            int resultado;
+            string simbolo;
+            string concatenado;
+            int contador = 0;
+            var rnd1 = new Random(Guid.NewGuid().GetHashCode());
             for (int row=0; row< PanelGenerador.RowCount; row++)
             {
                 for(int clm=0; clm<PanelGenerador.ColumnCount; clm++)
@@ -48,11 +34,140 @@ namespace Proyecto_2___Killer_Sudoku
                     var box = GetTextBoxAt(row, clm);
                     if (box != null)
                     {
-                        box.Text = this._generador.Numbers[clm, row].ToString();
+                        int x = rnd1.Next(1, 3);
+                        if (x == 1)
+                        {
+                            if (this._generador.Numbers[clm, row] >= 10)
+                            {
+                                int n = this._generador.Numbers[row, clm];
+                                string hex = n.ToString("X");
+                                box.Text = hex;
+                            }
+                            else
+                            {
+                                box.Text = this._generador.Numbers[row, clm].ToString();
+
+                            }
+                        }
+                        foreach (Piece pieza in _generador.pieces)
+                        {
+                            
+                            if (row == pieza.cell1[0] && clm == pieza.cell1[1])
+                            {
+                                if (pieza.Figure != 1)
+                                {
+                                    if (pieza.symbol == 1)
+                                    {
+                                        resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] + _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
+                                        + _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] + _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
+                                        simbolo = "+";
+                                    }
+                                    else
+                                    {
+                                        resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] * _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
+                                        * _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] * _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
+                                        simbolo = "x";
+                                    }
+                                    concatenado = String.Concat(simbolo, resultado);
+                                    box.Text = concatenado;
+
+                                }
+                            }
+
+
+
+                        }
+                        
+                        }
+
+                        
+                        switch (this._generador.piezas[row, clm])
+                        {
+                            case 1:
+                                box.BackColor = Color.SlateGray;
+                                break;
+                            case 2:
+                                box.BackColor = Color.Blue;
+                                break;
+                            case 3:
+                                box.BackColor = Color.Green;
+                                break;
+                            case 4:
+                                box.BackColor = Color.Yellow;
+                                break;
+                            case 5:
+                                box.BackColor = Color.RosyBrown; 
+                               break;
+                            case 6:
+                                box.BackColor = Color.Fuchsia;
+                                break;
+                            case 7:
+                                box.BackColor = Color.Red;
+                                break;
+                            case 8:
+                                box.BackColor = Color.MediumAquamarine;
+                                break;
+                            case 9:
+                                box.BackColor = Color.Indigo;
+                                break;
+                            case 10:
+                                box.BackColor = Color.LightSalmon;
+                                break;
+                            case 11:
+                                box.BackColor = Color.Turquoise;
+                                break;
+                            case 12:
+                                box.BackColor = Color.Maroon;
+                                break;
+                            case 13:
+                                box.BackColor = Color.MidnightBlue;
+                                break;
+                            case 14:
+                                box.BackColor = Color.SkyBlue;
+                                break;
+                            case 15:
+                                box.BackColor = Color.Olive;
+                                break;
+                            case 16:
+                                box.BackColor = Color.Teal;
+                                break;
+                            case 17:
+                                box.BackColor = Color.Plum;
+                                break;
+                            case 18:
+                                box.BackColor = Color.RosyBrown;
+                                break;
+                            case 19:
+                                box.BackColor = Color.Purple;
+                                break;
+                            case 20:
+                                box.BackColor = Color.SeaShell;
+                                break;
+                        }
                     }
                 }
             }
+        
+        private void Clear()
+        {
+            int[] simbolo = new int[_generador.contadordePiezas];
+            int[] resultado= new int[_generador.contadordePiezas];
+            int[,] celdas;
+            int cont = 0;
+            celdas= new int[_generador.ColmAndRow, _generador.ColmAndRow];
+            foreach(Piece pieza in _generador.pieces)
+            {
+                if (pieza.Figure != 1)
+                {
+                    resultado[cont]= _generador.Numbers[pieza.cell1[0], pieza.cell1[1]]+ _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
+                        + _generador.Numbers[pieza.cell3[0], pieza.cell3[1]]+ _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
+                    simbolo[cont] = pieza.symbol;
+                    celdas[pieza.cell1[0], pieza.cell1[1]] = resultado[cont];
+                    cont++;
+                }
+            }
         }
+ 
         private TextBox GetTextBoxAt(int row, int clm)
         {
             return (TextBox)PanelGenerador.GetControlFromPosition(row,clm);
@@ -65,7 +180,7 @@ namespace Proyecto_2___Killer_Sudoku
                     var textBox = new TextBox
                     {
                         TextAlign = HorizontalAlignment.Center,
-                        Font = new Font("Maiandra GD", 20f, FontStyle.Bold),
+                        Font = new Font("Maiandra GD", 9f, FontStyle.Bold),
                         AutoSize = false,
                         Dock = DockStyle.Fill,
                         MaxLength = 1,
@@ -108,15 +223,15 @@ namespace Proyecto_2___Killer_Sudoku
         {
             var height = GetTextBoxAt(0, 3).Top - GetTextBoxAt(0, 2).Bottom;
 
-            e.Graphics.FillRectangle(Brushes.Blue, 0, 0, PanelGenerador.Width, height);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 2).Left, GetTextBoxAt(0, 2).Bottom, PanelGenerador.Width, height);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 5).Left, GetTextBoxAt(0, 5).Bottom, PanelGenerador.Width, height);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 8).Left, GetTextBoxAt(0, 8).Bottom, PanelGenerador.Width, height);
+          //  e.Graphics.FillRectangle(Brushes.Blue, 0, 0, PanelGenerador.Width, height);
+          //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 2).Left, GetTextBoxAt(0, 2).Bottom, PanelGenerador.Width, height);
+          //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 5).Left, GetTextBoxAt(0, 5).Bottom, PanelGenerador.Width, height);
+          //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 8).Left, GetTextBoxAt(0, 8).Bottom, PanelGenerador.Width, height);
 
-            e.Graphics.FillRectangle(Brushes.Blue, 0, 0, height, PanelGenerador.Width);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(2, 0).Right, GetTextBoxAt(2, 0).Top, height, PanelGenerador.Height);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(5, 0).Right, GetTextBoxAt(5, 0).Top, height, PanelGenerador.Height);
-            e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(8, 0).Right, GetTextBoxAt(8, 0).Top, height, PanelGenerador.Height);
+           // e.Graphics.FillRectangle(Brushes.Blue, 0, 0, height, PanelGenerador.Width);
+           // e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(2, 0).Right, GetTextBoxAt(2, 0).Top, height, PanelGenerador.Height);
+           // e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(5, 0).Right, GetTextBoxAt(5, 0).Top, height, PanelGenerador.Height);
+          //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(8, 0).Right, GetTextBoxAt(8, 0).Top, height, PanelGenerador.Height);
 
         }
     }

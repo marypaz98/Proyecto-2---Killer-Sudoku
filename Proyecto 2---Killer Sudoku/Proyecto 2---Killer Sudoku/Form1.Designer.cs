@@ -43,7 +43,7 @@
             this.buttonResolver.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.buttonResolver.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonResolver.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonResolver.Location = new System.Drawing.Point(822, 178);
+            this.buttonResolver.Location = new System.Drawing.Point(963, 147);
             this.buttonResolver.Name = "buttonResolver";
             this.buttonResolver.Size = new System.Drawing.Size(98, 44);
             this.buttonResolver.TabIndex = 2;
@@ -54,7 +54,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(814, 14);
+            this.label1.Location = new System.Drawing.Point(971, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 19);
             this.label1.TabIndex = 3;
@@ -63,7 +63,7 @@
             // textBoxHilos
             // 
             this.textBoxHilos.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxHilos.Location = new System.Drawing.Point(871, 12);
+            this.textBoxHilos.Location = new System.Drawing.Point(1027, 15);
             this.textBoxHilos.Name = "textBoxHilos";
             this.textBoxHilos.Size = new System.Drawing.Size(155, 21);
             this.textBoxHilos.TabIndex = 4;
@@ -72,7 +72,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(818, 92);
+            this.label2.Location = new System.Drawing.Point(959, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 19);
             this.label2.TabIndex = 5;
@@ -81,7 +81,7 @@
             // textBoxTamaño
             // 
             this.textBoxTamaño.Font = new System.Drawing.Font("Maiandra GD", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxTamaño.Location = new System.Drawing.Point(898, 92);
+            this.textBoxTamaño.Location = new System.Drawing.Point(1038, 73);
             this.textBoxTamaño.Name = "textBoxTamaño";
             this.textBoxTamaño.Size = new System.Drawing.Size(128, 21);
             this.textBoxTamaño.TabIndex = 6;
@@ -91,7 +91,7 @@
             this.button1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(822, 274);
+            this.button1.Location = new System.Drawing.Point(963, 254);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 41);
             this.button1.TabIndex = 7;
@@ -100,31 +100,39 @@
             // 
             // PanelGenerador
             // 
+            this.PanelGenerador.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.PanelGenerador.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.PanelGenerador.ColumnCount = 9;
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
             this.PanelGenerador.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.PanelGenerador.Location = new System.Drawing.Point(1, 2);
+            this.PanelGenerador.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
+            this.PanelGenerador.Location = new System.Drawing.Point(1, 4);
             this.PanelGenerador.Name = "PanelGenerador";
             this.PanelGenerador.RowCount = 9;
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
-            this.PanelGenerador.Size = new System.Drawing.Size(384, 431);
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.333334F));
+            this.PanelGenerador.Size = new System.Drawing.Size(449, 431);
             this.PanelGenerador.TabIndex = 9;
             this.PanelGenerador.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelGenerador_Paint);
             // 
@@ -142,7 +150,7 @@
             this.tableLayoutPanelResuelto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanelResuelto.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
             this.tableLayoutPanelResuelto.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.tableLayoutPanelResuelto.Location = new System.Drawing.Point(412, 2);
+            this.tableLayoutPanelResuelto.Location = new System.Drawing.Point(548, 2);
             this.tableLayoutPanelResuelto.Name = "tableLayoutPanelResuelto";
             this.tableLayoutPanelResuelto.RowCount = 9;
             this.tableLayoutPanelResuelto.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.11111F));
@@ -162,7 +170,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(1038, 459);
+            this.ClientSize = new System.Drawing.Size(1194, 459);
             this.Controls.Add(this.tableLayoutPanelResuelto);
             this.Controls.Add(this.PanelGenerador);
             this.Controls.Add(this.button1);

@@ -11,176 +11,730 @@ namespace Proyecto_2___Killer_Sudoku
     {
         public int[,] Numbers { get; private set; }
         public List<Piece> pieces;
+        public int ColmAndRow=9;
+        public int[,] piezas;
+        public int[] piezasAnterior = new int[10];
+        public int contadordePiezas = 0;
 
         public Generador() {
             NumberGenerator();
-            Update(10);
+            Update(ColmAndRow+1);
+            PieceGenerator();
 
         }
 
         private void NumberGenerator() {
-            Numbers = new int[9, 9];
+            Numbers = new int[ColmAndRow, ColmAndRow];
             pieces = new List<Piece>();
-            for (int i = 0; i < 9; i++) {
-                for (int j=0; j<9; j++){
-                    Numbers[i, j] = (i*3+i/3+j)%9+1;
+            piezas = new int[ColmAndRow, ColmAndRow];
+            for (int i = 0; i < ColmAndRow; i++) {
+                for (int j=0; j< ColmAndRow; j++){
+                    Numbers[i, j] = (i*3+i/3+j)% ColmAndRow + 1;
                 }
             }
-            Console.WriteLine(Numbers[0, 0].ToString() + Numbers[0, 1].ToString() + Numbers[0, 2].ToString() + Numbers[0, 3].ToString()
-+ Numbers[0, 4].ToString() + Numbers[0, 5].ToString() + Numbers[0, 6].ToString() + Numbers[0, 7].ToString() + Numbers[0, 8].ToString());
-            Console.WriteLine(Numbers[1, 0].ToString() + Numbers[1, 1].ToString() + Numbers[1, 2].ToString() + Numbers[1, 3].ToString()
-              + Numbers[1, 4].ToString() + Numbers[1, 5].ToString() + Numbers[1, 6].ToString() + Numbers[1, 7].ToString() + Numbers[1, 8].ToString());
-            Console.WriteLine(Numbers[2, 0].ToString() + Numbers[2, 1].ToString() + Numbers[2, 2].ToString() + Numbers[2, 3].ToString()
-                          + Numbers[2, 4].ToString() + Numbers[2, 5].ToString() + Numbers[2, 6].ToString() + Numbers[2, 7].ToString() + Numbers[2, 8].ToString());
-            Console.WriteLine(Numbers[3, 0].ToString() + Numbers[3, 1].ToString() + Numbers[3, 2].ToString() + Numbers[3, 3].ToString()
-              + Numbers[3, 4].ToString() + Numbers[3, 5].ToString() + Numbers[3, 6].ToString() + Numbers[3, 7].ToString() + Numbers[3, 8].ToString());
-            Console.WriteLine(Numbers[4, 0].ToString() + Numbers[4, 1].ToString() + Numbers[4, 2].ToString() + Numbers[4, 3].ToString()
-                          + Numbers[4, 4].ToString() + Numbers[4, 5].ToString() + Numbers[4, 6].ToString() + Numbers[4, 7].ToString() + Numbers[4, 8].ToString());
-            Console.WriteLine(Numbers[5, 0].ToString() + Numbers[5, 1].ToString() + Numbers[5, 2].ToString() + Numbers[5, 3].ToString()
-                          + Numbers[5, 4].ToString() + Numbers[5, 5].ToString() + Numbers[5, 6].ToString() + Numbers[5, 7].ToString() + Numbers[5, 8].ToString());
-            Console.WriteLine(Numbers[6, 0].ToString() + Numbers[6, 1].ToString() + Numbers[6, 2].ToString() + Numbers[6, 3].ToString()
-                          + Numbers[6, 4].ToString() + Numbers[6, 5].ToString() + Numbers[6, 6].ToString() + Numbers[6, 7].ToString() + Numbers[6, 8].ToString());
-            Console.WriteLine(Numbers[7, 0].ToString() + Numbers[7, 1].ToString() + Numbers[7, 2].ToString() + Numbers[7, 3].ToString()
-                          + Numbers[7, 4].ToString() + Numbers[7, 5].ToString() + Numbers[7, 6].ToString() + Numbers[7, 7].ToString() + Numbers[7, 8].ToString());
-            Console.WriteLine(Numbers[8, 0].ToString() + Numbers[8, 1].ToString() + Numbers[8, 2].ToString() + Numbers[8, 3].ToString()
-              + Numbers[8, 4].ToString() + Numbers[8, 5].ToString() + Numbers[8, 6].ToString() + Numbers[8, 7].ToString() + Numbers[8, 8].ToString());
-            Console.WriteLine("-----------------------------------------------------");
-
+         
 
         }
         private void ChangeCells(int v1, int v2) {
             int[] a, b;
-            a= new int[9];
-            b = new int[9];
-            for (int i = 0; i < 9; i++)
+            a= new int[ColmAndRow];
+            b = new int[ColmAndRow];
+            for (int i = 0; i < ColmAndRow; i++)
             {
                 a[i] = Numbers[v1, i];
                 b[i] = Numbers[v2, i];
             }
-            for (int i=0; i<9; i++)
+            for (int i=0; i< ColmAndRow; i++)
             {
                 Numbers[v1, i] = b[i];
                 Numbers[v2, i] = a[i];
             }
-            Console.WriteLine("V1" + v1 + "V2" + v2);
-            Console.WriteLine("a= "+a[0].ToString()+a[1].ToString()+a[2].ToString()+a[3].ToString()+a[4].ToString()+a[5].ToString()+a[6].ToString()+a[7].ToString()+a[8].ToString());
-            Console.WriteLine("b=" + b[0].ToString() + b[1].ToString() + b[2].ToString() + b[3].ToString() + b[4].ToString() + b[5].ToString() + b[6].ToString() + b[7].ToString() + b[8].ToString());
-            Console.WriteLine("Numbers[v1]=" + Numbers[v1,0].ToString(),Numbers[v1,1].ToString(),Numbers[v1,2].ToString()
-                , Numbers[v1,3].ToString(), Numbers[v1,4].ToString(), Numbers[v1,5].ToString(), Numbers[v1,6].ToString(), Numbers[v1,7].ToString(),
-                Numbers[v1,8].ToString());
-            Console.WriteLine("Numbers[v2]=" + Numbers[v2, 0].ToString(), Numbers[v2, 1].ToString(), Numbers[v2, 2].ToString()
-    , Numbers[v2, 3].ToString(), Numbers[v2, 4].ToString(), Numbers[v2, 5].ToString(), Numbers[v2, 6].ToString(), Numbers[v2, 7].ToString(),
-    Numbers[v2, 8].ToString());
-
-
         }
 
 
 
-
+        
         private void Update(int grid) {
-            for(int i=0; i<grid; i++)
+            for (int i = 0; i < grid; i++)
             {
                 var rnd1 = new Random(Guid.NewGuid().GetHashCode());
                 var rnd2 = new Random(Guid.NewGuid().GetHashCode());
-                int x = rnd1.Next(0, 9);
-                int y = rnd2.Next(0, 9);
-                Console.WriteLine("x=" + x + "y="+y);
-                if (x!=y)
+                int x = rnd1.Next(0, ColmAndRow);
+                int y = rnd2.Next(0, ColmAndRow);
+                Console.WriteLine("x=" + x + "y=" + y);
+                if (x != y)
                 {
                     Console.WriteLine("Entró");
                     ChangeCells(x, y);
                 }
             }
-            Console.WriteLine(Numbers[0, 0].ToString() + Numbers[0, 1].ToString() + Numbers[0, 2].ToString() + Numbers[0, 3].ToString()
-    + Numbers[0, 4].ToString() + Numbers[0, 5].ToString() + Numbers[0, 6].ToString() + Numbers[0, 7].ToString() + Numbers[0, 8].ToString());
-            Console.WriteLine(Numbers[1, 0].ToString() + Numbers[1, 1].ToString() + Numbers[1, 2].ToString() + Numbers[1, 3].ToString()
-              + Numbers[1, 4].ToString() + Numbers[1, 5].ToString() + Numbers[1, 6].ToString() + Numbers[1, 7].ToString() + Numbers[1, 8].ToString());
-            Console.WriteLine(Numbers[2, 0].ToString() + Numbers[2, 1].ToString() + Numbers[2, 2].ToString() + Numbers[2, 3].ToString()
-                          + Numbers[2, 4].ToString() + Numbers[2, 5].ToString() + Numbers[2, 6].ToString() + Numbers[2, 7].ToString() + Numbers[2, 8].ToString());
-            Console.WriteLine(Numbers[3, 0].ToString() + Numbers[3, 1].ToString() + Numbers[3, 2].ToString() + Numbers[3, 3].ToString()
-              + Numbers[3, 4].ToString() + Numbers[3, 5].ToString() + Numbers[3, 6].ToString() + Numbers[3, 7].ToString() + Numbers[3, 8].ToString());
-            Console.WriteLine(Numbers[4, 0].ToString() + Numbers[4, 1].ToString() + Numbers[4, 2].ToString() + Numbers[4, 3].ToString()
-                          + Numbers[4, 4].ToString() + Numbers[4, 5].ToString() + Numbers[4, 6].ToString() + Numbers[4, 7].ToString() + Numbers[4, 8].ToString());
-            Console.WriteLine(Numbers[5, 0].ToString() + Numbers[5, 1].ToString() + Numbers[5, 2].ToString() + Numbers[5, 3].ToString()
-                          + Numbers[5, 4].ToString() + Numbers[5, 5].ToString() + Numbers[5, 6].ToString() + Numbers[5, 7].ToString() + Numbers[5, 8].ToString());
-            Console.WriteLine(Numbers[6, 0].ToString() + Numbers[6, 1].ToString() + Numbers[6, 2].ToString() + Numbers[6, 3].ToString()
-                          + Numbers[6, 4].ToString() + Numbers[6, 5].ToString() + Numbers[6, 6].ToString() + Numbers[6, 7].ToString() + Numbers[6, 8].ToString());
-            Console.WriteLine(Numbers[7, 0].ToString() + Numbers[7, 1].ToString() + Numbers[7, 2].ToString() + Numbers[7, 3].ToString()
-                          + Numbers[7, 4].ToString() + Numbers[7, 5].ToString() + Numbers[7, 6].ToString() + Numbers[7, 7].ToString() + Numbers[7, 8].ToString());
-            Console.WriteLine(Numbers[8, 0].ToString() + Numbers[8, 1].ToString() + Numbers[8, 2].ToString() + Numbers[8, 3].ToString()
-              + Numbers[8, 4].ToString() + Numbers[8, 5].ToString() + Numbers[8, 6].ToString() + Numbers[8, 7].ToString() + Numbers[8, 8].ToString());
-            Console.WriteLine("-----------------------------------------------------");
-
-
         }
-
-        /*
-        public void PieceGenerator()
-        
-        {
-            List<int[,]> cell = new List<int[,]>();
+        public void PieceGenerator() {
+            int[,] cell = new int[ColmAndRow, ColmAndRow];
             var rnd1 = new Random(Guid.NewGuid().GetHashCode());
             var rnd2 = new Random(Guid.NewGuid().GetHashCode());
-            for (int i=0; i<9; i++)
+            int piece, symbol;
+            int cont = 0;
+            for(int i=0; i < ColmAndRow; i++)
             {
-                for (int j = 0; j < 9; j++)
+                for(int j=0; j < ColmAndRow; j++)
                 {
-                    int x = rnd1.Next(1, 8);
-                    int y = rnd2.Next(1, 8);
-                    if (x == 1)
+                    piece = rnd1.Next(2, 21);
+                    symbol= rnd1.Next(1, 3);
+                   
+                    if (!SearchCell(cell, i, j))
                     {
-                        if ((!SearchCell(cell, i, j)) & (!SearchCell(cell, i, j + 1)) & (!SearchCell(cell, i, j + 2)) & (!SearchCell(cell, i, j + 3)))
+                        
+                        switch (piece)
                         {
-                            pieces.Add(new Piece(x, y, i, j, i, j + 1, i, j + 2, i, j + 3));
-                        }
+                            case 2:
+                                if (PieceTwo(cell, i, j)&&(!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(piece, symbol, i, j, i, j + 1, i, j + 2, i, j + 3));
+                                    cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i, j + 3] = 2;
+                                    this.piezasAnterior[cont]  = cell[i, j];
 
-                    }
-                    else if (x == 2)
-                    {
-                        if ((!SearchCell(cell, i, j)) & (!SearchCell(cell, i, j + 1)) & (!SearchCell(cell, i, j + 2)) & (!SearchCell(cell, i+1, j + 2)))
+                                }
+                                else
+                                {
+                                    cell= PobrarOtrasPiezas(cell,i,j,symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 3:
+                                if (PieceThree(cell, i, j)&& (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(3, symbol, i, j, i + 1, j, i + 2, j, i + 3, j));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 3, j] = 3;
+                                    this.piezasAnterior[cont] = cell[i, j];
+
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 4:
+                                if (PieceFour(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(4, symbol, i, j, i + 1, j, i + 2, j, i + 2, j + 1));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j + 1] = 4;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 5:
+                                if (PieceFive(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(5, symbol, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j));
+                                    cell[i, j] = cell[i + 1, j - 2] = cell[i + 1, j - 1] = cell[i + 1, j] = 5;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 6:
+                                if (PieceSix(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(6, symbol, i, j, i, j + 1, i + 1, j + 1, i + 2, j + 1));
+                                    cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 6;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 7:
+                                if (PieceSeven(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(7, symbol, i, j, i, j + 1, i, j + 2, i + 1, j));
+                                    cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j] = 7;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 8:
+                                if (PieceEight(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(8, symbol, i, j, i, j + 1, i + 1, j, i + 1, j + 1));
+                                    cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 8;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                
+                                break;
+                            case 9:
+                                if (PieceNine(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(9, symbol, i, j, i + 1, j, i + 2, j, i + 2, j - 1));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j - 1] = 9;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                               
+                                break;
+                            case 10:
+                                if (PieceTen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(10, symbol, i, j, i, j + 1, i, j + 2, i + 1, j + 2));
+                                    cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 2] = 10;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                    
+                                break;
+                            case 11:
+                                if (PieceEleven(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(11, symbol, i, j, i, j + 1, i + 1, j, i + 2, j));
+                                    cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 2, j] = 11;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                  
+                                break;
+                            case 12:
+                                if (PieceTwelve(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(12, symbol, i, j, i + 1, j, i + 1, j + 1, i + 1, j + 2));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 12;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                     
+                                break;
+                            case 13:
+                                if (PieceThirteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(13, symbol, i, j, i, j + 1, i + 1, j - 1, i + 1, j));
+                                    cell[i, j] = cell[i, j + 1] = cell[i + 1, j - 1] = cell[i + 1, j] = 13;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                break;
+                            case 14:
+                                if (PieceFourteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(14, symbol, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 14;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                    
+                                break;
+                            case 15:
+                                if (PieceFifteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(15, symbol, i, j, i, j + 1, i + 1, j + 1, i + 1, j + 2));
+                                    cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 15;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                 
+                                break;
+                            case 16:
+                                if (PieceSixteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(16, symbol, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 1, j - 1] = cell[i + 2, j - 1] = 16;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                
+                                break;
+                            case 17:
+                                if (PieceSeventeen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(17, symbol, i, j, i, j + 1, i, j + 2, i + 1, j + 1));
+                                    cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 1] = 17;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                      
+                                break;
+                            case 18:
+                                if (PieceEighteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(18, symbol, i, j, i + 1, j, i + 1, j + 1, i + 2, j));
+                                    cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j] = 18;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+          
+                                break;
+                            case 19:
+                                if (PieceNineteen(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(19, symbol, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1));
+                                    cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 19;
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                   
+                                break;
+                            case 20:
+                                if (PieceTwenty(cell, i, j) && (!PiezasAnteriores(piece)))
+                                {
+                                    pieces.Add(new Piece(20, symbol, i, j, i + 1, j - 1, i + 1, j, i + 2, j));
+                                    cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 2, j] = 20;
+                                    this.piezasAnterior[cont] = cell[i, j];
+
+                                }
+                                else
+                                {
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    this.piezasAnterior[cont] = cell[i, j];
+                                }
+                  
+                                break;     
+                        }
+                        Console.WriteLine("piezas: "+this.piezasAnterior[cont]);
+                        cont++;
+                        contadordePiezas++;
+                        if(cont == 9)
                         {
-                            pieces.Add(new Piece(x, y, i, j, i, j + 1, i, j + 2, i+1, j + 2));
+                            cont = 0;
                         }
                     }
-                    else if (x == 3)
-                    {
-                        if ((!SearchCell(cell, i, j)) & (!SearchCell(cell, i, j + 1)) & (!SearchCell(cell, i, j + 2)) & (!SearchCell(cell, i -1, j + 2)))
-                        {
-                            pieces.Add(new Piece(x, y, i, j, i, j + 1, i, j + 2, i -1, j + 2));
-                        }
-                    }
-                    else if (x == 4)
-                    {
-                        if ((!SearchCell(cell, i, j)) & (!SearchCell(cell, i+1, j)) & (!SearchCell(cell, i, j+1)) & (!SearchCell(cell, i+1, j+1)))
-                        {
-
-                        }
-
-
-                    }
-                }
-            }        
-        }
-        public bool SearchCell(List<int[,]> cell, int x, int y)
-        {
-            bool z = false;
-            for(int i=0; i< cell.Capacity; i++) {
-                int row = cell[i][0,0];
-                int clm = cell[i][0, 1];
-                if(row==x & clm == y)
-                {
-                    z = true; 
+        
                 }
             }
-            return z;
-        } */
+            piezas = cell;
+
+        }
+        private bool PiezasAnteriores(int newPiece) {
+            bool bandera = false;
+            for(int i=0; i < piezasAnterior.Length; i++)
+            {
+                if (piezasAnterior[i] == newPiece)
+                {
+                    bandera = true;
+                }
+            }
+            return bandera;
+        }
+        public int [,] PobrarOtrasPiezas(int[,]cell, int i, int j, int symbol)
+        {
+            if (PieceSixteen(cell, i, j) && (!PiezasAnteriores(16)))
+            {
+                pieces.Add(new Piece(16, symbol, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1));
+                cell[i, j] = cell[i + 1, j] = cell[i + 1, j - 1] = cell[i + 2, j - 1] = 16;
+            }
+            else if (PieceNineteen(cell, i, j) && (!PiezasAnteriores(19)))
+            {
+                pieces.Add(new Piece(19, symbol, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1));
+                cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 19;
+            }
+
+            else if (PieceFive(cell, i, j) && (!PiezasAnteriores(5)))
+            {
+                pieces.Add(new Piece(5, symbol, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j));
+                cell[i, j] = cell[i + 1, j-2] = cell[i + 1, j-1] = cell[i + 1, j] = 5;
+            }
+            else if (PieceSix(cell, i, j) && (!PiezasAnteriores(6)))
+            {
+                pieces.Add(new Piece(6, symbol, i, j, i, j+1, i + 1, j +1, i + 2, j+1));
+                cell[i, j] = cell[i, j+1] = cell[i + 1, j + 1] = cell[i + 2, j+1] = 6;
+            }
+            else if (PieceSeven(cell, i, j) && (!PiezasAnteriores(7)))
+            {
+                pieces.Add(new Piece(7, symbol,i,j,i,j+1,i,j+2,i+1,j));
+                cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j] = 7;
+            }
+            else if (PieceEight(cell, i, j) && (!PiezasAnteriores(8)))
+            {
+                pieces.Add(new Piece(8, symbol, i, j, i, j + 1, i + 1, j, i + 1, j + 1));
+                cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 8;
+            }
+            else if (PieceNine(cell, i, j) && (!PiezasAnteriores(9)))
+            {
+                pieces.Add(new Piece(9, symbol, i, j, i + 1, j, i + 2, j, i + 2, j - 1));
+                cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j - 1]=9;
+            }
+            else if (PieceTwo(cell, i, j) && (!PiezasAnteriores(2)))
+            {
+                pieces.Add(new Piece(2, symbol, i, j, i, j + 1, i, j + 2, i, j + 3));
+                cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i, j + 3] = 2;
+            }
+            else if (PieceTen(cell, i, j) && (!PiezasAnteriores(10)))
+            {
+                pieces.Add(new Piece(10, symbol, i, j, i, j + 1, i, j + 2, i + 1, j + 2));
+                cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 2] = 10;
+            }
+            else if (PieceFourteen(cell, i, j) && (!PiezasAnteriores(14)))
+            {
+                pieces.Add(new Piece(14, symbol, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1));
+                cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 14;
+            }
+            else if (PieceThree(cell, i, j) && (!PiezasAnteriores(3)))
+            {
+                pieces.Add(new Piece(3, symbol, i, j, i + 1, j, i + 2, j, i + 3, j));
+                cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 3, j] = 3;
+            }
+            else if (PieceEleven(cell, i, j) && (!PiezasAnteriores(11)))
+            {
+                pieces.Add(new Piece(11, symbol, i, j, i, j + 1, i + 1, j, i + 2, j));
+                cell[i,j]=cell[i,j+1]=cell[i+1,j]=cell[i+2,j]= 11;
+
+            }
+            else if (PieceFour(cell, i, j) && (!PiezasAnteriores(4)))
+            {
+                pieces.Add(new Piece(4, symbol, i, j, i + 1, j, i + 2, j, i + 2, j + 1));
+                cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j + 1] = 4;
+            }
+            else if (PieceTwelve(cell, i, j) && (!PiezasAnteriores(12)))
+            {
+                pieces.Add(new Piece(12,symbol,i,j,i+1,j,i+1,j+1,i+1,j+2));
+                cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 12;
+            }
+            else if (PieceThirteen(cell, i, j) && (!PiezasAnteriores(13)))
+            {
+                pieces.Add(new Piece(13, symbol,i,j,i,j+1,i+1,j-1,i+1,j));
+                cell[i, j] = cell[i, j + 1] = cell[i + 1, j - 1] = cell[i + 1, j] = 13;
+            }
+
+            else if(PieceFifteen(cell, i, j) && (!PiezasAnteriores(15)))
+            {
+                pieces.Add(new Piece(15, symbol,i,j,i,j+1,i+1,j+1,i+1,j+2));
+                cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 1, j + 2]=15;
+            }
+
+            else if (PieceSeventeen(cell, i, j) && (!PiezasAnteriores(17)))
+            {
+                pieces.Add(new Piece(17, symbol, i, j, i, j + 1, i, j + 2, i + 1, j + 1));
+                cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 1]=17;
+            }
+            else if (PieceEighteen(cell, i, j) && (!PiezasAnteriores(18)))
+            {
+                pieces.Add(new Piece(18, symbol, i, j, i + 1, j, i + 1, j + 1, i + 2, j));
+                cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j]=18;
+            }
+
+            else if (PieceTwenty(cell, i, j) && (!PiezasAnteriores(20)))
+            {
+                pieces.Add(new Piece(20, symbol, i, j,i+1,j-1,i+1,j,i+2,j));
+                cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 2, j] = 20;
+            }
+            else if (PieceOne(cell, i, j))
+            {
+                pieces.Add(new Piece(1, symbol, i, j, -1, -1, -1, -1, -1, -1));
+                cell[i, j] = 1;
+            }
+            return cell;
+        }
+        private bool PieceOne(int[,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceTwo(int[,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y)||SearchCell(cell, x, y+1)||SearchCell(cell,x,y+2)||SearchCell(cell,x,y+3))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceThree(int[,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 2, y) || SearchCell(cell, x + 3, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceFour(int[,] cell, int x, int y)
+        {
+            if  (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 2, y) || SearchCell(cell, x + 2, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceFive(int[,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x,y)||SearchCell(cell, x+1,y-2)||SearchCell(cell, x + 1, y - 1) || SearchCell(cell, x + 1, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceSix(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x, y + 1) || SearchCell(cell, x + 1, y + 1) || SearchCell(cell, x + 2, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceSeven(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x, y + 1) || SearchCell(cell, x, y + 2) || SearchCell(cell, x + 1, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceEight(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell,x,y )|| SearchCell(cell, x, y+1)||SearchCell(cell, x+1,y)|| SearchCell(cell,x + 1, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceNine(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x, y)||SearchCell(cell,x+1,y)||SearchCell(cell, x + 2, y) || SearchCell(cell, x + 2, y - 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceTen(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x,y)||SearchCell(cell, x,y+1)||SearchCell(cell, x, y+2)||SearchCell(cell, x + 1, y + 2))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceEleven(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x, y + 1) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 2, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        } 
+        private bool PieceTwelve(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 1, y + 1) || SearchCell(cell, x + 1, y + 2))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceThirteen(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x,y)||SearchCell(cell, x,y+1)||SearchCell(cell,x+1,y-1)||SearchCell(cell, x + 1, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceFourteen(int [,] cell ,int x, int y)
+        {
+            if(SearchCell(cell, x,y)||SearchCell(cell,x+1,y)||SearchCell(cell, x + 1, y + 1) || SearchCell(cell, x + 2, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceFifteen(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x, y) || SearchCell(cell, x, y + 1) || SearchCell(cell, x + 1, y + 1) || SearchCell(cell, x + 1, y + 2))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceSixteen(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 1, y - 1) || SearchCell(cell, x + 2, y - 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceSeventeen(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell,x,y)||SearchCell(cell,x,y+1)||SearchCell(cell,x,y+2)||SearchCell(cell, x + 1, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private bool PieceEighteen(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 1, y + 1) || SearchCell(cell, x + 2, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceNineteen(int [,] cell, int x, int y)
+        {
+            if (SearchCell(cell, x, y) || SearchCell(cell, x + 1, y - 1) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 1, y + 1))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool PieceTwenty(int [,] cell, int x, int y)
+        {
+            if(SearchCell(cell, x, y) || SearchCell(cell, x + 1, y - 1) || SearchCell(cell, x + 1, y) || SearchCell(cell, x + 2, y))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        private bool SearchCell(int[,] cell, int x, int y)
+        {
+            
+            if(x>=9 || y >= 9 || x<0 || y<0)
+            {
+                return true;
+            }
+            else if (cell[x, y] != 0)
+            {
+                 return true;
+            }
+            else
+            {
+                 return false;
+            }
+            
+
+        } 
         public override string ToString()
         {
             var SB = new StringBuilder();
-            for(int i=0; i< 9; i++)
+            for(int i=0; i< ColmAndRow; i++)
             {
-                for(int j=0; j<9; i++)
+                for(int j=0; j< ColmAndRow; i++)
                 {
                     SB.Append(Numbers[i,j]);
                 }

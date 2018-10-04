@@ -8,12 +8,15 @@ namespace Proyecto_2___Killer_Sudoku
 {
     class Piece
     {
-        int Figure; //1= Letra I, 2= Letra L, 3= Letra J, 4= Letra O, 5= Letra T, 6= Letra S, 7=Letra Z, 8= solo un cuadro 
-        int symbol; //1= suma, 2=multiplicación
-        int[] cell1= new int[2];
-        int[] cell2 = new int[2];
-        int[] cell3 = new int[2];
-        int[] cell4 = new int[2];
+        public int Figure; //1= | | |, 2= |  |, 3= |  |  |  |, 4= |  |, 5= |   |      6=     |   |   7=  |   |   |, 8= |   |, 9= |  |  |, 10=    |  |  
+                           //|  |,                   |  |     |   |   |     |   |   |       |   |         |   |     |  |  |      |  |  |
+                           //                        |  |                                                 |   |                  |  |
+                           //                                                                             |   |
+        public int symbol; //1= suma, 2=multiplicación
+        public int[] cell1= new int[2];
+        public int[] cell2 = new int[2];
+        public int[] cell3 = new int[2];
+        public int[] cell4 = new int[2];
 
         public Piece(int fig, int symb, int row1, int clm1, int row2, int clm2, int row3, int clm3, int row4, int clm4)
         {

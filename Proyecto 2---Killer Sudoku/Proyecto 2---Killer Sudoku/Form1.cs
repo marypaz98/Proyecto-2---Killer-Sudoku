@@ -14,20 +14,22 @@ namespace Proyecto_2___Killer_Sudoku
     public partial class Form1 : Form
     {
         private Generador _generador;
-        TextWriter archivoSudoku;
+        private File archivoSudoku = new File();
+        private Solver _solver; 
         public Form1()
         {
 
             InitializeComponent();
             CreateTextBoxes();
             ShowGame();
+            archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces);
+            _solver = new Solver();
         }
         private void ShowGame() {
             this._generador = new Generador();
             int resultado;
             string simbolo;
             string concatenado;
-            int contador = 0;
             var rnd1 = new Random(Guid.NewGuid().GetHashCode());
             for (int row=0; row< PanelGenerador.RowCount; row++)
             {
@@ -152,7 +154,7 @@ namespace Proyecto_2___Killer_Sudoku
                         }
                     }
                 }
-            Imprimir(this._generador.sudoku);
+            
             }
         
         private void Clear()
@@ -224,39 +226,6 @@ namespace Proyecto_2___Killer_Sudoku
             if (!(e.KeyChar == ' ' | e.KeyChar == '0')) return;
             e.KeyChar = (char)Keys.Back;
         }
-
-        public void Imprimir(int[,] mat)
-        {
-            archivoSudoku = new StreamWriter("killerSudoku.txt");
-            string linea="";
-            for (int f = 0; f < mat.GetLength(0); f++)
-            {
-                for (int c = 0; c < mat.GetLength(1); c++)
-                {
-                    linea=String.Concat(linea, mat[f, c], " ");
-                    
-                }
-                archivoSudoku.WriteLine(linea);
-                linea = "";
-            }
-            string otro = "";
-            foreach (Piece pieza in _generador.pieces)
-            {
-                if (pieza.Figure != 1)
-                {
-                    otro = String.Concat(pieza.Figure, "-", pieza.symbol, "-", pieza.resultado, "-", pieza.cell1[0], ",", pieza.cell1[1]
-                        , "-", pieza.cell2[0], ",", pieza.cell2[1], "-", pieza.cell3[0], ",", pieza.cell3[1], "-", pieza.cell4[0],",",pieza.cell4[1]);
-                    archivoSudoku.WriteLine(otro);
-                }
-                else
-                {
-                    otro = otro = String.Concat(pieza.Figure, "-", pieza.symbol, "-", pieza.resultado, "-", pieza.cell1[0], ",", pieza.cell1[1]);
-                    archivoSudoku.WriteLine(otro);
-                }
-            }
-            archivoSudoku.Close();
-        }
-
 
 
             private void PanelGenerador_Paint(object sender, PaintEventArgs e)

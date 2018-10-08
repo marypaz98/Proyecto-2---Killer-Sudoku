@@ -21,9 +21,11 @@ namespace Proyecto_2___Killer_Sudoku
 
             InitializeComponent();
             CreateTextBoxes();
+           CreateTextBoxes1();
             ShowGame();
             archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces);
-            _solver = new Solver();
+            ShowGameOtherPanel();
+           
         }
         private void ShowGame() {
             this._generador = new Generador();
@@ -156,6 +158,33 @@ namespace Proyecto_2___Killer_Sudoku
                 }
             
             }
+        private void ShowGameOtherPanel()
+        {
+            _solver = new Solver();
+            var rnd1 = new Random(Guid.NewGuid().GetHashCode());
+            for (int row = 0; row < PanelResuelto.RowCount; row++)
+            {
+                for (int clm = 0; clm < PanelResuelto.ColumnCount; clm++)
+                {
+                    var box = GetTextBoxAt1(row, clm);
+                    if (box != null)
+                    {
+
+                        if (_solver.sudoku[row, clm] >= 10)
+                        {
+                            int n = this._solver.sudoku[row, clm];
+                            string hex = n.ToString("X");
+                            box.Text = hex;
+                        }
+                        else
+                        {
+                            box.Text = this._solver.sudoku[row, clm].ToString();
+
+                        }
+                    }
+                }
+            }             
+        }
         
         private void Clear()
         {
@@ -181,6 +210,10 @@ namespace Proyecto_2___Killer_Sudoku
         {
             return (TextBox)PanelGenerador.GetControlFromPosition(row,clm);
         }
+        private TextBox GetTextBoxAt1(int row, int clm)
+        {
+            return (TextBox)PanelResuelto.GetControlFromPosition(row, clm);
+        }
         private void CreateTextBoxes() {
             for (int row=0; row<PanelGenerador.RowCount; row++)
             {
@@ -198,6 +231,28 @@ namespace Proyecto_2___Killer_Sudoku
                     };
                     textBox.KeyPress += textBox_KeyPress;
                     PanelGenerador.Controls.Add(textBox, row, clm);
+
+                }
+            }
+        }
+        private void CreateTextBoxes1()
+        {
+            for (int row = 0; row < PanelResuelto.RowCount; row++)
+            {
+                for (int clm = 0; clm < PanelResuelto.ColumnCount; clm++)
+                {
+                    var textBox = new TextBox
+                    {
+                        TextAlign = HorizontalAlignment.Center,
+                        Font = new Font("Maiandra GD", 9f, FontStyle.Bold),
+                        AutoSize = false,
+                        Dock = DockStyle.Fill,
+                        MaxLength = 1,
+                        BackColor = Color.WhiteSmoke
+
+                    };
+                    textBox.KeyPress += textBox_KeyPress;
+                    PanelResuelto.Controls.Add(textBox, row, clm);
 
                 }
             }

@@ -11,7 +11,7 @@ namespace Proyecto_2___Killer_Sudoku
     {
         public int[,] Numbers { get; private set; }
         public List<Piece> pieces;
-        public int ColmAndRow=9;
+        public  int ColmAndRow=10;
         public int[,] piezas;
         public int[] piezasAnterior = new int[10];
         public int contadordePiezas = 0;

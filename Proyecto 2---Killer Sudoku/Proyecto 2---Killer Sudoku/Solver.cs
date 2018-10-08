@@ -10,19 +10,22 @@ namespace Proyecto_2___Killer_Sudoku
     {
         File archivoSudoku = new File();
         String infoArchivo;
-        int clmAndRow = 9;
-        int[,] sudoku;
-        List<Piece> piezas;
+        public int clmAndRow = 10;
+        public int[,] sudoku;
+        public List<Piece> piezas;
 
         public Solver()
         {
             sudoku = new int[clmAndRow, clmAndRow];
             piezas = new List<Piece>();
             infoArchivo = archivoSudoku.ReadFile();
-            llenarSudoku();
+            getSudoku();
+            Imprimir(sudoku);
+            Console.WriteLine("????");
+            resolver();
 
         }
-        public void llenarSudoku()
+        public void getSudoku()
         {
             String matriz = "";
             String piezas = "";
@@ -44,12 +47,12 @@ namespace Proyecto_2___Killer_Sudoku
             }
             matriz= matriz.Replace("\r\n", "").Replace("\n", "").Replace("\r", "").Replace(" ","");
             piezas = piezas.Replace(" ", "");
-            llenarMatriz(matriz);
-            llenarPiezas(piezas);
+            getMatriz(matriz);
+            getPiece(piezas);
         }
 
 
-        public void llenarMatriz(string matriz)
+        public void getMatriz(string matriz)
         {
             int contador = 0;
             string caracter = "";
@@ -64,7 +67,7 @@ namespace Proyecto_2___Killer_Sudoku
             }
 
         }
-        public void llenarPiezas(string pieza)
+        public void getPiece(string pieza)
         {
             int figura=0;
             int simbolo=0;
@@ -104,6 +107,94 @@ namespace Proyecto_2___Killer_Sudoku
             }
 
 
+        }
+        public static bool isSafe(int[,] matriz, int num, int row, int col)
+        {
+            bool flag = true;
+            // row has the unique (row-clash) 
+            for (int i=0; i < matriz.GetLength(0); i++)
+            {
+                // if the number we are trying to  
+                // place is already present in  
+                // that row, return false;
+                if (matriz[row, i] == num)
+                {
+                    flag = false ;
+                    break;
+                }
+            }
+            for(int j=0; j < matriz.GetLength(0); j++)
+            {
+                // if the number we are trying to 
+                // place is already present in 
+                // that column, return false;
+                if (matriz[j, col] == num)
+                {
+                    flag=false;
+                    break;
+                }
+            }
+
+            return flag;
+        }
+        public static bool solveSudoku(int[,] matriz, int n)
+        {
+            int row = -1;
+            int col = -1;
+            bool isEmpty = true;
+            for (int i=0; i<n; i++)
+            {
+                for(int j=0; j < n; j++)
+                {
+                    if (matriz[i, j] == 0)
+                    {
+                        row = i;
+                        col = j;
+                        isEmpty = false;
+                        break;
+                    }
+                }
+                if (!isEmpty)
+                {
+                    break;
+                }
+            }
+            if (isEmpty)
+            {
+                return true;
+            }
+            // else for each-row backtrack 
+            for (int num = 1; num <= n; num++)
+            {
+                if(isSafe(matriz,num,row, col))
+                {
+                    matriz[row, col] = num;
+                    if (solveSudoku(matriz, n))
+                    {
+                        // print(matriz, n);
+                        return true;
+                    }
+                    else
+                    {
+                        matriz[row, col] = 0; //replace it
+                    }
+                }
+            }
+            return false;
+        }
+        public  void resolver()
+        {
+            int N = sudoku.GetLength(0);
+            Console.WriteLine(N);
+            if (solveSudoku(sudoku, N))
+            {
+                Imprimir(sudoku);
+                Console.WriteLine("hola");
+            }
+            else
+            {
+                Console.WriteLine("No solución");
+            }
         }
         public void ImprimirPiezas(List<Piece> p)
         {

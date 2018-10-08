@@ -10,7 +10,7 @@ namespace Proyecto_2___Killer_Sudoku
     {
         File archivoSudoku = new File();
         String infoArchivo;
-        public int clmAndRow = 10;
+        public int clmAndRow = 9;
         public int[,] sudoku;
         public List<Piece> piezas;
 

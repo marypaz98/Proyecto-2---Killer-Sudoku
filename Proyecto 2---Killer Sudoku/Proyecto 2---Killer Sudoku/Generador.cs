@@ -11,7 +11,7 @@ namespace Proyecto_2___Killer_Sudoku
     {
         public int[,] Numbers { get; private set; }
         public List<Piece> pieces;
-        public  int ColmAndRow=10;
+        public  int ColmAndRow=9;
         public int[,] piezas;
         public int[] piezasAnterior = new int[10];
         public int contadordePiezas = 0;
@@ -19,20 +19,49 @@ namespace Proyecto_2___Killer_Sudoku
 
         public Generador() {
             NumberGenerator();
+            Imprimir(Numbers);
             Update(ColmAndRow+1);
             PieceGenerator();
+            Imprimir(Numbers);
 
         }
 
+        private bool Verifica(int[,] matriz, int f, int c, int num, int tam)
+        {
+            for(int i=0; i < tam; i++)
+            {
+                if (matriz[f, i] == num || matriz[i, c] == num)
+                {
+                    return false;
+                }
+            }
+            return true; 
+        }
         private void NumberGenerator() {
             Numbers = new int[ColmAndRow, ColmAndRow];
             pieces = new List<Piece>();
             piezas = new int[ColmAndRow, ColmAndRow];
             sudoku= new int[ColmAndRow, ColmAndRow];
-            for (int i = 0; i < ColmAndRow; i++) {
-                for (int j=0; j< ColmAndRow; j++){
-                    Numbers[i, j] = (i*3+i/3+j)% ColmAndRow + 1;
+            int n=1;
+            int cont = 1;
+            Random aleatorio = new Random();
+            for(int i = 0; i < ColmAndRow; i++)
+            {
+                for(int j=0; j < ColmAndRow; j++)
+                {
+                    if (n <= ColmAndRow)
+                    {
+                        Numbers[i, j] = n;
+                        n++;
+                    }
+                    else
+                    {
+                        Numbers[i, j] = n % ColmAndRow ;
+                        n++;
+                    }
                 }
+                n = cont + 1;
+                cont++;
             }
          
 
@@ -57,6 +86,8 @@ namespace Proyecto_2___Killer_Sudoku
 
         
         private void Update(int grid) {
+            int[] filasListas = new int[ColmAndRow];
+            int cont = 0;
             for (int i = 0; i < grid; i++)
             {
                 var rnd1 = new Random(Guid.NewGuid().GetHashCode());
@@ -64,10 +95,13 @@ namespace Proyecto_2___Killer_Sudoku
                 int x = rnd1.Next(0, ColmAndRow);
                 int y = rnd2.Next(0, ColmAndRow);
                 Console.WriteLine("x=" + x + "y=" + y);
-                if (x != y)
+                if (x != y )
                 {
                     Console.WriteLine("Entró");
                     ChangeCells(x, y);
+                    //filasListas[cont] = x;
+                    //filasListas[cont + 1] = y;
+                    //cont += 2;
                 }
             }
         }
@@ -81,12 +115,13 @@ namespace Proyecto_2___Killer_Sudoku
             {
                 for(int j=0; j < ColmAndRow; j++)
                 {
+                    
                     piece = rnd1.Next(2, 21);
                     symbol= rnd1.Next(1, 3);
                    
                     if (!SearchCell(cell, i, j))
                     {
-                        
+                        Console.WriteLine(i + "." + j);
                         switch (piece)
                         {
                             case 2:
@@ -667,6 +702,15 @@ namespace Proyecto_2___Killer_Sudoku
                 return true;
             }
         }
+        public void ImprimirPiezas(List<Piece> p)
+        {
+            foreach (Piece pieza in p)
+            {
+                Console.WriteLine("figura: " + pieza.Figure + " simbolo: " + pieza.symbol + " resultado: " + pieza.resultado +
+                    " celda1: " + pieza.cell1[0] + "," + pieza.cell1[1] + " celda2: " + pieza.cell2[0] + "," + pieza.cell2[1] +
+                    " celda3: " + pieza.cell3[0] + "," + pieza.cell3[1] + " celda4:" + pieza.cell4[0] + "," + pieza.cell4[1]);
+            }
+        }
         private bool PieceSeventeen(int [,] cell, int x, int y)
         {
             if(SearchCell(cell,x,y)||SearchCell(cell,x,y+1)||SearchCell(cell,x,y+2)||SearchCell(cell, x + 1, y + 1))
@@ -715,7 +759,7 @@ namespace Proyecto_2___Killer_Sudoku
         private bool SearchCell(int[,] cell, int x, int y)
         {
             
-            if(x>=9 || y >= 9 || x<0 || y<0)
+            if(x>=ColmAndRow || y >= ColmAndRow|| x<0 || y<0)
             {
                 return true;
             }
@@ -741,6 +785,17 @@ namespace Proyecto_2___Killer_Sudoku
                 }
             }
             return base.ToString();
+        }
+        public void Imprimir(int[,] mat)
+        {
+            for (int f = 0; f < mat.GetLength(0); f++)
+            {
+                for (int c = 0; c < mat.GetLength(1); c++)
+                {
+                    Console.Write(mat[f, c] + " ");
+                }
+                Console.WriteLine();
+            }
         }
     }
 }

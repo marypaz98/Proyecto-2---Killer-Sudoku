@@ -25,6 +25,8 @@ namespace Proyecto_2___Killer_Sudoku
             ShowGame();
             archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces);
             ShowGameOtherPanel();
+
+            textBoxTamaño.Text = _generador.ColmAndRow.ToString() + "x" + _generador.ColmAndRow.ToString();
            
         }
         private void ShowGame() {

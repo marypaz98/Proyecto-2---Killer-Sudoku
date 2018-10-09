@@ -14,15 +14,15 @@ namespace Proyecto_2___Killer_Sudoku
         {
 
         }
-        public void WriteFile(int[,] mat, List<Piece> piezas)
+        public void WriteFile(int[,] mat, List<Piece> piezas, String nombreArchivo)
         {
-            archivoSudoku = new StreamWriter("killerSudoku.txt");
+            archivoSudoku = new StreamWriter(nombreArchivo+".txt");
             string linea = "";
             for (int f = 0; f < mat.GetLength(0); f++)
             {
                 for (int c = 0; c < mat.GetLength(1); c++)
                 {
-                    linea = String.Concat(linea, mat[f, c], " ");
+                    linea = String.Concat(linea, mat[f, c], "?");
 
                 }
                 archivoSudoku.WriteLine(linea);

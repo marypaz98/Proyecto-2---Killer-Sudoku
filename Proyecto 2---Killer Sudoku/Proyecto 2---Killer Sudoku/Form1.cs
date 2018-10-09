@@ -15,22 +15,18 @@ namespace Proyecto_2___Killer_Sudoku
     {
         private Generador _generador;
         private File archivoSudoku = new File();
-        private Solver _solver; 
+        private Solver _solver;
+        int hilos;
+        int tamaño;
         public Form1()
         {
 
             InitializeComponent();
-            CreateTextBoxes();
-           CreateTextBoxes1();
-            ShowGame();
-            archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces);
-            ShowGameOtherPanel();
 
-            textBoxTamaño.Text = _generador.ColmAndRow.ToString() + "x" + _generador.ColmAndRow.ToString();
            
         }
         private void ShowGame() {
-            this._generador = new Generador();
+            this._generador = new Generador(tamaño);
             int resultado;
             string simbolo;
             string concatenado;
@@ -42,22 +38,22 @@ namespace Proyecto_2___Killer_Sudoku
                     var box = GetTextBoxAt(row, clm);
                     if (box != null)
                     {
-                        int x = rnd1.Next(1, 3);
-                        if (x == 1)
-                        {
-                            if (this._generador.Numbers[row, clm] >= 10)
-                            {
-                                int n = this._generador.Numbers[row, clm];
-                                string hex = n.ToString("X");
-                                box.Text = hex;
-                            }
-                            else
-                            {
-                                box.Text = this._generador.Numbers[row, clm].ToString();
+                     //   int x = rnd1.Next(1, 3);
+                      //  if (x == 1)
+                       // {
+                        //    if (this._generador.Numbers[row, clm] >= 10)
+                        //    {
+                        //        int n = this._generador.Numbers[row, clm];
+                        //        string hex = n.ToString("X");
+                        //        box.Text = hex;
+                        //    }
+                        //    else
+                        //    {
+                        //        box.Text = this._generador.Numbers[row, clm].ToString();
 
-                            }
-                            this._generador.sudoku[row, clm] = this._generador.Numbers[row, clm];
-                        }
+                       //     }
+                            this._generador.sudoku[row, clm] = 0;
+                        //}
                         foreach (Piece pieza in _generador.pieces)
                         {
                             
@@ -83,6 +79,22 @@ namespace Proyecto_2___Killer_Sudoku
                                     concatenado = String.Concat(simbolo, resultado);
                                     box.Text = concatenado;
 
+                                }
+                                else
+                                {
+                                    resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]];
+                                    if (resultado >= 10)
+                                    {
+                                        string hex = resultado.ToString("X");
+                                        box.Text = hex;
+                                    }
+                                    else
+                                    {
+                                        concatenado = resultado.ToString();
+                                        box.Text = concatenado;
+                                        
+                                    }
+                                    this._generador.sudoku[row, clm] = resultado;
                                 }
                             }
 
@@ -162,7 +174,7 @@ namespace Proyecto_2___Killer_Sudoku
             }
         private void ShowGameOtherPanel()
         {
-            _solver = new Solver();
+            _solver = new Solver(tamaño);
             var rnd1 = new Random(Guid.NewGuid().GetHashCode());
             for (int row = 0; row < PanelResuelto.RowCount; row++)
             {
@@ -183,6 +195,69 @@ namespace Proyecto_2___Killer_Sudoku
                             box.Text = this._solver.sudoku[row, clm].ToString();
 
                         }
+                    }
+                    switch (this._solver.pieces[row, clm])
+                    {
+                        case 1:
+                            box.BackColor = Color.SlateGray;
+                            break;
+                        case 2:
+                            box.BackColor = Color.Blue;
+                            break;
+                        case 3:
+                            box.BackColor = Color.Green;
+                            break;
+                        case 4:
+                            box.BackColor = Color.Yellow;
+                            break;
+                        case 5:
+                            box.BackColor = Color.RosyBrown;
+                            break;
+                        case 6:
+                            box.BackColor = Color.Fuchsia;
+                            break;
+                        case 7:
+                            box.BackColor = Color.Red;
+                            break;
+                        case 8:
+                            box.BackColor = Color.MediumAquamarine;
+                            break;
+                        case 9:
+                            box.BackColor = Color.Indigo;
+                            break;
+                        case 10:
+                            box.BackColor = Color.LightSalmon;
+                            break;
+                        case 11:
+                            box.BackColor = Color.Turquoise;
+                            break;
+                        case 12:
+                            box.BackColor = Color.Maroon;
+                            break;
+                        case 13:
+                            box.BackColor = Color.MidnightBlue;
+                            break;
+                        case 14:
+                            box.BackColor = Color.SkyBlue;
+                            break;
+                        case 15:
+                            box.BackColor = Color.Olive;
+                            break;
+                        case 16:
+                            box.BackColor = Color.Teal;
+                            break;
+                        case 17:
+                            box.BackColor = Color.Plum;
+                            break;
+                        case 18:
+                            box.BackColor = Color.RosyBrown;
+                            break;
+                        case 19:
+                            box.BackColor = Color.Purple;
+                            break;
+                        case 20:
+                            box.BackColor = Color.SeaShell;
+                            break;
                     }
                 }
             }             
@@ -232,7 +307,9 @@ namespace Proyecto_2___Killer_Sudoku
 
                     };
                     textBox.KeyPress += textBox_KeyPress;
+                   
                     PanelGenerador.Controls.Add(textBox, row, clm);
+                    
 
                 }
             }
@@ -287,7 +364,7 @@ namespace Proyecto_2___Killer_Sudoku
 
             private void PanelGenerador_Paint(object sender, PaintEventArgs e)
         {
-            var height = GetTextBoxAt(0, 3).Top - GetTextBoxAt(0, 2).Bottom;
+            
 
           //  e.Graphics.FillRectangle(Brushes.Blue, 0, 0, PanelGenerador.Width, height);
           //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(0, 2).Left, GetTextBoxAt(0, 2).Bottom, PanelGenerador.Width, height);
@@ -300,5 +377,86 @@ namespace Proyecto_2___Killer_Sudoku
           //  e.Graphics.FillRectangle(Brushes.Blue, GetTextBoxAt(8, 0).Right, GetTextBoxAt(8, 0).Top, height, PanelGenerador.Height);
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                archivoSudoku.WriteFile(_solver.sudoku, _solver.piezas, "sudokuGuardado");
+                MessageBox.Show("Killer sudoku guardado con éxito","Éxito");
+            }
+            catch(Exception z)
+            {
+                MessageBox.Show("Error al guardar el killer sudoku", "Error");
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonGenerar_Click(object sender, EventArgs e)
+        {
+           string h = textBoxHilos.Text;          
+            string n = textBoxTamaño.Text;
+            if (string.IsNullOrEmpty(h) || string.IsNullOrEmpty(n))
+            {
+                MessageBox.Show("Debe ingresar el tamaño y el número de hilos", "Error");
+            }
+            else if (!Int32.TryParse(n, out tamaño) || !Int32.TryParse(h, out hilos))
+            {
+                MessageBox.Show("Los valores ingresados deben ser numeros", "Error");
+            }
+            else
+            {
+                
+                Int32.TryParse(n, out tamaño);
+                Int32.TryParse(h, out hilos);
+                PanelGenerador.RowCount = tamaño;
+                PanelGenerador.ColumnCount = tamaño;
+                PanelResuelto.RowCount = tamaño;
+                PanelResuelto.ColumnCount = tamaño;
+                determinarAnchoPanelGenerador();
+                determinarAnchoPanelResuelto();
+                PanelGenerador.AutoScroll = true;
+                PanelResuelto.AutoScroll = true;
+                CreateTextBoxes();
+                CreateTextBoxes1();
+                ShowGame();
+                archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces, "killerSudoku");
+                ShowGameOtherPanel();
+            }
+            }
+        public void determinarAnchoPanelGenerador()
+        {
+            foreach(ColumnStyle item in PanelGenerador.ColumnStyles){
+                item.Width = 52;
+                item.SizeType = SizeType.Absolute;
+            }
+            foreach (RowStyle ite in PanelGenerador.RowStyles)
+            {
+                ite.Height = 46;
+                ite.SizeType = SizeType.Absolute;
+
+            }
+        }
+        public void determinarAnchoPanelResuelto()
+        {
+            foreach(ColumnStyle item in PanelResuelto.ColumnStyles)
+            {
+                item.Width = 50;
+                item.SizeType = SizeType.Absolute;
+            }
+            foreach(RowStyle ite in PanelResuelto.RowStyles)
+            {
+                ite.Height = 47;
+                ite.SizeType = SizeType.Absolute;
+                
+            }
+        }
+   
+
+        
     }
 }

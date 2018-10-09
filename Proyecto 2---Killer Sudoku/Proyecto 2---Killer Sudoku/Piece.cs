@@ -17,6 +17,10 @@ namespace Proyecto_2___Killer_Sudoku
         public int[] cell2 = new int[2];
         public int[] cell3 = new int[2];
         public int[] cell4 = new int[2];
+        public int valor1;
+        public int valor2;
+        public int valor3;
+        public int valor4;
         public int resultado;
         public Piece(int fig, int symb,int resultado, int row1, int clm1, int row2, int clm2, int row3, int clm3, int row4, int clm4)
         {

@@ -11,13 +11,14 @@ namespace Proyecto_2___Killer_Sudoku
     {
         public int[,] Numbers { get; private set; }
         public List<Piece> pieces;
-        public  int ColmAndRow=9;
+        public  int ColmAndRow;
         public int[,] piezas;
-        public int[] piezasAnterior = new int[10];
+        public int[] piezasAnterior;
         public int contadordePiezas = 0;
         public int[,] sudoku;
 
-        public Generador() {
+        public Generador(int tam) {
+            ColmAndRow = tam;
             NumberGenerator();
             Imprimir(Numbers);
             Update(ColmAndRow+1);
@@ -42,6 +43,7 @@ namespace Proyecto_2___Killer_Sudoku
             pieces = new List<Piece>();
             piezas = new int[ColmAndRow, ColmAndRow];
             sudoku= new int[ColmAndRow, ColmAndRow];
+            piezasAnterior = new int[ColmAndRow+1];
             int n=1;
             int cont = 1;
             Random aleatorio = new Random();

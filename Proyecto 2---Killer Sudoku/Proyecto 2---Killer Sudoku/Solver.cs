@@ -194,165 +194,24 @@ namespace Proyecto_2___Killer_Sudoku
             {
                 if(isSafe(matriz,num,row, col))
                 {
-                    Console.WriteLine("SI ENTRO");
+   
                     matriz[row, col] = num;
                     if (solveSudoku(matriz, n))
                     {
-                        Console.WriteLine("MM");
+  
                         // print(matriz, n);
                         return true;
                     }
                     else
                     {
-                        Console.WriteLine("no entiendo que hace");
+          
                         matriz[row, col] = 0; //replace it
                     }
                 }
             }
             return false;
         }
-        private  bool validarPiezas(int[,] matriz, int num, int row, int col)
-        {
-
-            if (!isSafe(matriz, num, row, col))
-            {
-                Console.WriteLine("FALSE");
-                return false;
-            }
-            else
-            {
-                foreach (Piece p in piezas)
-                {
-                    Console.WriteLine("?");
-                    if (num > p.resultado)
-                    {
-                        Console.WriteLine("falso");
-                        return false;
-
-                    }
-                    if (p.symbol == 1)
-                    {
-                        Console.WriteLine("si");
-                        if (validarSuma(p, num, row, col))
-                        {
-                            if (p.cell1[0] == row && p.cell1[1] == col)
-                            {
-                                p.valor1 = num;
-                            }
-                            else if (p.cell2[0] == row && p.cell2[1] == col)
-                            {
-                                p.valor2 = num;
-                            }
-                            else if (p.cell3[0] == row && p.cell3[1] == col)
-                            {
-                                p.valor3 = num;
-                            }
-                            else if (p.cell4[0] == row && p.cell4[1] == col)
-                            {
-                                p.valor4 = num;
-                            }
-                            Console.WriteLine("verdadero");
-                            return true;
-
-                        }
-                    }
-
-                    /* else if (signo == 2)
-                     {
-                         if (validarMultiplicacion(p, num, row, col))
-                         {
-                             if (p.cell1[0] == row && p.cell1[1] == col)
-                             {
-                                 p.valor1 = num;
-                             }
-                             else if (p.cell2[0] == row && p.cell2[1] == col)
-                             {
-                                 p.valor2 = num;
-                             }
-                             else if (p.cell3[0] == row && p.cell3[1] == col)
-                             {
-                                 p.valor3 = num;
-                             }
-                             else if (p.cell4[0] == row && p.cell4[1] == col)
-                             {
-                                 p.valor4 = num;
-                             }
-                             return true;
-                         }
-                     }
-
-                     */
-                }
-            }
-            Console.WriteLine("Ultimo falso");
-            return false;
-        }
-       /* private bool validarMultiplicacion(Piece p, int num, int row, int col)
-        {
-            if ((p.cell1[0] == row && p.cell1[1] == col))
-            {
-                if (p.valor2 * p.valor3 * p.valor4 * num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell2[0] == row && p.cell2[1] == col)
-            {
-                if (p.valor1 * p.valor3 * p.valor4 * num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell3[0] == row && p.cell3[1] == col)
-            {
-                if (p.valor1 * p.valor2 * p.valor4 * num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell4[0] == row && p.cell4[1] == col)
-            {
-                if (p.valor1 * p.valor2 * p.valor3 * num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            return true;
-
-        }*/
-        private bool validarSuma(Piece p, int num, int row, int col)
-        {
-            if ((p.cell1[0] == row && p.cell1[1] == col))
-            {
-                if (p.valor2 + p.valor3 + p.valor4 + num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell2[0] == row && p.cell2[1] == col)
-            {
-                if (p.valor1 + p.valor3 + p.valor4 + num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell3[0] == row && p.cell3[1] == col)
-            {
-                if (p.valor1 + p.valor2 + p.valor4 + num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            else if (p.cell4[0] == row && p.cell4[1] == col)
-            {
-                if (p.valor1 + p.valor2 + p.valor3 + num > p.resultado)
-                {
-                    return false;
-                }
-            }
-            return true;
-
-        }
+     
         public  void resolver()
         {
             int N = sudoku.GetLength(0);

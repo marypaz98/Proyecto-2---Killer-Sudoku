@@ -22,7 +22,8 @@ namespace Proyecto_2___Killer_Sudoku
         public int valor3;
         public int valor4;
         public int resultado;
-        public Piece(int fig, int symb,int resultado, int row1, int clm1, int row2, int clm2, int row3, int clm3, int row4, int clm4)
+        public bool resuelto=false;
+        public Piece(int fig, int symb,int resultado, int row1, int clm1, int row2, int clm2, int row3, int clm3, int row4, int clm4, int valor1, int valor2, int valor3, int valor4)
         {
             this.Figure = fig;
             this.symbol = symb;
@@ -35,6 +36,10 @@ namespace Proyecto_2___Killer_Sudoku
             this.cell4[0] = row4;
             this.cell4[1] = clm4;
             this.resultado = resultado;
+            this.valor1 = valor1;
+            this.valor2 = valor2;
+            this.valor3 = valor3;
+            this.valor4 = valor4;
         }
     }
 }

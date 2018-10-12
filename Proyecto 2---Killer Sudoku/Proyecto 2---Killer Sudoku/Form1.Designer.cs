@@ -36,6 +36,7 @@
             this.PanelGenerador = new System.Windows.Forms.TableLayoutPanel();
             this.PanelResuelto = new System.Windows.Forms.TableLayoutPanel();
             this.buttonGenerar = new System.Windows.Forms.Button();
+            this.buttonResolver = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +80,7 @@
             this.button1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(1097, 237);
+            this.button1.Location = new System.Drawing.Point(1097, 330);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(98, 41);
             this.button1.TabIndex = 7;
@@ -169,7 +170,7 @@
             this.buttonGenerar.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.buttonGenerar.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonGenerar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.buttonGenerar.Location = new System.Drawing.Point(1097, 147);
+            this.buttonGenerar.Location = new System.Drawing.Point(1097, 129);
             this.buttonGenerar.Name = "buttonGenerar";
             this.buttonGenerar.Size = new System.Drawing.Size(98, 41);
             this.buttonGenerar.TabIndex = 10;
@@ -177,12 +178,26 @@
             this.buttonGenerar.UseVisualStyleBackColor = false;
             this.buttonGenerar.Click += new System.EventHandler(this.buttonGenerar_Click);
             // 
+            // buttonResolver
+            // 
+            this.buttonResolver.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.buttonResolver.Font = new System.Drawing.Font("Maiandra GD", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonResolver.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.buttonResolver.Location = new System.Drawing.Point(1097, 231);
+            this.buttonResolver.Name = "buttonResolver";
+            this.buttonResolver.Size = new System.Drawing.Size(98, 41);
+            this.buttonResolver.TabIndex = 11;
+            this.buttonResolver.Text = "Resolver";
+            this.buttonResolver.UseVisualStyleBackColor = false;
+            this.buttonResolver.Click += new System.EventHandler(this.buttonResolver_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1316, 485);
+            this.Controls.Add(this.buttonResolver);
             this.Controls.Add(this.buttonGenerar);
             this.Controls.Add(this.PanelResuelto);
             this.Controls.Add(this.PanelGenerador);
@@ -211,6 +226,7 @@
         private System.Windows.Forms.TableLayoutPanel PanelGenerador;
         private System.Windows.Forms.TableLayoutPanel PanelResuelto;
         private System.Windows.Forms.Button buttonGenerar;
+        private System.Windows.Forms.Button buttonResolver;
     }
 }
 

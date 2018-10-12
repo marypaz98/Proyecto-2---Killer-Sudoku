@@ -38,21 +38,7 @@ namespace Proyecto_2___Killer_Sudoku
                     var box = GetTextBoxAt(row, clm);
                     if (box != null)
                     {
-                     //   int x = rnd1.Next(1, 3);
-                      //  if (x == 1)
-                       // {
-                        //    if (this._generador.Numbers[row, clm] >= 10)
-                        //    {
-                        //        int n = this._generador.Numbers[row, clm];
-                        //        string hex = n.ToString("X");
-                        //        box.Text = hex;
-                        //    }
-                        //    else
-                        //    {
-                        //        box.Text = this._generador.Numbers[row, clm].ToString();
-
-                       //     }
-                            this._generador.sudoku[row, clm] = 0;
+                     this._generador.sudoku[row, clm] = 0;
                         //}
                         foreach (Piece pieza in _generador.pieces)
                         {
@@ -174,7 +160,8 @@ namespace Proyecto_2___Killer_Sudoku
             }
         private void ShowGameOtherPanel()
         {
-            _solver = new Solver(tamaño);
+            _solver = new Solver(tamaño, _generador.Numbers);
+   
             var rnd1 = new Random(Guid.NewGuid().GetHashCode());
             for (int row = 0; row < PanelResuelto.RowCount; row++)
             {
@@ -415,19 +402,31 @@ namespace Proyecto_2___Killer_Sudoku
                 Int32.TryParse(h, out hilos);
                 PanelGenerador.RowCount = tamaño;
                 PanelGenerador.ColumnCount = tamaño;
-                PanelResuelto.RowCount = tamaño;
-                PanelResuelto.ColumnCount = tamaño;
+                
                 determinarAnchoPanelGenerador();
-                determinarAnchoPanelResuelto();
+
                 PanelGenerador.AutoScroll = true;
-                PanelResuelto.AutoScroll = true;
+                
                 CreateTextBoxes();
-                CreateTextBoxes1();
+                
                 ShowGame();
+                Imprimir(_generador.Numbers);
                 archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces, "killerSudoku");
-                ShowGameOtherPanel();
+                
+               
             }
             }
+        public void Imprimir(int[,] mat)
+        {
+            for (int f = 0; f < mat.GetLength(0); f++)
+            {
+                for (int c = 0; c < mat.GetLength(1); c++)
+                {
+                    Console.Write(mat[f, c] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
         public void determinarAnchoPanelGenerador()
         {
             foreach(ColumnStyle item in PanelGenerador.ColumnStyles){
@@ -455,8 +454,15 @@ namespace Proyecto_2___Killer_Sudoku
                 
             }
         }
-   
 
-        
+        private void buttonResolver_Click(object sender, EventArgs e)
+        {
+            PanelResuelto.RowCount = tamaño;
+            PanelResuelto.ColumnCount = tamaño;
+            determinarAnchoPanelResuelto();
+            PanelResuelto.AutoScroll = true;
+            CreateTextBoxes1();
+            ShowGameOtherPanel();
+        }
     }
 }

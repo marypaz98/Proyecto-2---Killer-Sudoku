@@ -113,6 +113,7 @@ namespace Proyecto_2___Killer_Sudoku
             var rnd2 = new Random(Guid.NewGuid().GetHashCode());
             int piece, symbol;
             int cont = 0;
+            int val;
             for(int i=0; i < ColmAndRow; i++)
             {
                 for(int j=0; j < ColmAndRow; j++)
@@ -120,7 +121,7 @@ namespace Proyecto_2___Killer_Sudoku
                     
                     piece = rnd1.Next(2, 21);
                     symbol= rnd1.Next(1, 3);
-                   
+                    val = values(symbol);
                     if (!SearchCell(cell, i, j))
                     {
                         Console.WriteLine(i + "." + j);
@@ -129,14 +130,14 @@ namespace Proyecto_2___Killer_Sudoku
                             case 2:
                                 if (PieceTwo(cell, i, j)&&(!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(piece, symbol,0, i, j, i, j + 1, i, j + 2, i, j + 3));
+                                    pieces.Add(new Piece(piece, symbol,0, i, j, i, j + 1, i, j + 2, i, j + 3,val,val,val,val));
                                     cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i, j + 3] = 2;
                                     this.piezasAnterior[cont]  = cell[i, j];
 
                                 }
                                 else
                                 {
-                                    cell= PobrarOtrasPiezas(cell,i,j,symbol);
+                                    cell= PobrarOtrasPiezas(cell,i,j,symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -144,14 +145,14 @@ namespace Proyecto_2___Killer_Sudoku
                             case 3:
                                 if (PieceThree(cell, i, j)&& (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(3, symbol,0, i, j, i + 1, j, i + 2, j, i + 3, j));
+                                    pieces.Add(new Piece(3, symbol,0, i, j, i + 1, j, i + 2, j, i + 3, j, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 3, j] = 3;
                                     this.piezasAnterior[cont] = cell[i, j];
 
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -159,13 +160,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 4:
                                 if (PieceFour(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(4, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j + 1));
+                                    pieces.Add(new Piece(4, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j + 1] = 4;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -173,13 +174,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 5:
                                 if (PieceFive(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(5, symbol,0, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j));
+                                    pieces.Add(new Piece(5, symbol,0, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j - 2] = cell[i + 1, j - 1] = cell[i + 1, j] = 5;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -187,13 +188,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 6:
                                 if (PieceSix(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(6, symbol,0, i, j, i, j + 1, i + 1, j + 1, i + 2, j + 1));
+                                    pieces.Add(new Piece(6, symbol,0, i, j, i, j + 1, i + 1, j + 1, i + 2, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 6;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -201,13 +202,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 7:
                                 if (PieceSeven(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(7, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j));
+                                    pieces.Add(new Piece(7, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j] = 7;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -215,13 +216,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 8:
                                 if (PieceEight(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(8, symbol,0, i, j, i, j + 1, i + 1, j, i + 1, j + 1));
+                                    pieces.Add(new Piece(8, symbol,0, i, j, i, j + 1, i + 1, j, i + 1, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 8;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 
@@ -229,13 +230,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 9:
                                 if (PieceNine(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(9, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j - 1));
+                                    pieces.Add(new Piece(9, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j - 1, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j - 1] = 9;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                
@@ -243,13 +244,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 10:
                                 if (PieceTen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(10, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 2));
+                                    pieces.Add(new Piece(10, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 2, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 2] = 10;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                     
@@ -257,13 +258,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 11:
                                 if (PieceEleven(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(11, symbol,0, i, j, i, j + 1, i + 1, j, i + 2, j));
+                                    pieces.Add(new Piece(11, symbol,0, i, j, i, j + 1, i + 1, j, i + 2, j, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 2, j] = 11;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                   
@@ -271,13 +272,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 12:
                                 if (PieceTwelve(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(12, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 1, j + 2));
+                                    pieces.Add(new Piece(12, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 1, j + 2, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 12;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                      
@@ -285,26 +286,26 @@ namespace Proyecto_2___Killer_Sudoku
                             case 13:
                                 if (PieceThirteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(13, symbol,0, i, j, i, j + 1, i + 1, j - 1, i + 1, j));
+                                    pieces.Add(new Piece(13, symbol,0, i, j, i, j + 1, i + 1, j - 1, i + 1, j, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i + 1, j - 1] = cell[i + 1, j] = 13;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 break;
                             case 14:
                                 if (PieceFourteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(14, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1));
+                                    pieces.Add(new Piece(14, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 14;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                     
@@ -312,13 +313,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 15:
                                 if (PieceFifteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(15, symbol,0, i, j, i, j + 1, i + 1, j + 1, i + 1, j + 2));
+                                    pieces.Add(new Piece(15, symbol,0, i, j, i, j + 1, i + 1, j + 1, i + 1, j + 2, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 15;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                  
@@ -326,13 +327,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 16:
                                 if (PieceSixteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(16, symbol,0, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1));
+                                    pieces.Add(new Piece(16, symbol,0, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 1, j - 1] = cell[i + 2, j - 1] = 16;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                 
@@ -340,13 +341,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 17:
                                 if (PieceSeventeen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(17, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 1));
+                                    pieces.Add(new Piece(17, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 1] = 17;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                       
@@ -354,13 +355,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 18:
                                 if (PieceEighteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(18, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j));
+                                    pieces.Add(new Piece(18, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j] = 18;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
           
@@ -368,13 +369,13 @@ namespace Proyecto_2___Killer_Sudoku
                             case 19:
                                 if (PieceNineteen(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(19, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1));
+                                    pieces.Add(new Piece(19, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 19;
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                    
@@ -382,14 +383,14 @@ namespace Proyecto_2___Killer_Sudoku
                             case 20:
                                 if (PieceTwenty(cell, i, j) && (!PiezasAnteriores(piece)))
                                 {
-                                    pieces.Add(new Piece(20, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 2, j));
+                                    pieces.Add(new Piece(20, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 2, j, val, val, val, val));
                                     cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 2, j] = 20;
                                     this.piezasAnterior[cont] = cell[i, j];
 
                                 }
                                 else
                                 {
-                                    cell = PobrarOtrasPiezas(cell, i, j, symbol);
+                                    cell = PobrarOtrasPiezas(cell, i, j, symbol,val);
                                     this.piezasAnterior[cont] = cell[i, j];
                                 }
                   
@@ -397,7 +398,7 @@ namespace Proyecto_2___Killer_Sudoku
                         }
                         cont++;
                         contadordePiezas++;
-                        if(cont == 9)
+                        if(cont == ColmAndRow)
                         {
                             cont = 0;
                         }
@@ -419,111 +420,111 @@ namespace Proyecto_2___Killer_Sudoku
             }
             return bandera;
         }
-        public int [,] PobrarOtrasPiezas(int[,]cell, int i, int j, int symbol)
+        public int [,] PobrarOtrasPiezas(int[,]cell, int i, int j, int symbol, int val)
         {
             if (PieceSixteen(cell, i, j) && (!PiezasAnteriores(16)))
             {
-                pieces.Add(new Piece(16, symbol,0, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1));
+                pieces.Add(new Piece(16, symbol,0, i, j, i + 1, j, i + 1, j - 1, i + 2, j - 1, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 1, j - 1] = cell[i + 2, j - 1] = 16;
             }
             else if (PieceNineteen(cell, i, j) && (!PiezasAnteriores(19)))
             {
-                pieces.Add(new Piece(19, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1));
+                pieces.Add(new Piece(19, symbol,0, i, j, i + 1, j - 1, i + 1, j, i + 1, j + 1, val, val, val, val));
                 cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 19;
             }
 
             else if (PieceFive(cell, i, j) && (!PiezasAnteriores(5)))
             {
-                pieces.Add(new Piece(5, symbol,0, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j));
+                pieces.Add(new Piece(5, symbol,0, i, j, i + 1, j - 2, i + 1, j - 1, i + 1, j, val, val, val, val));
                 cell[i, j] = cell[i + 1, j-2] = cell[i + 1, j-1] = cell[i + 1, j] = 5;
             }
             else if (PieceSix(cell, i, j) && (!PiezasAnteriores(6)))
             {
-                pieces.Add(new Piece(6, symbol,0, i, j, i, j+1, i + 1, j +1, i + 2, j+1));
+                pieces.Add(new Piece(6, symbol,0, i, j, i, j+1, i + 1, j +1, i + 2, j+1, val, val, val, val));
                 cell[i, j] = cell[i, j+1] = cell[i + 1, j + 1] = cell[i + 2, j+1] = 6;
             }
             else if (PieceSeven(cell, i, j) && (!PiezasAnteriores(7)))
             {
-                pieces.Add(new Piece(7, symbol,0,i,j,i,j+1,i,j+2,i+1,j));
+                pieces.Add(new Piece(7, symbol,0,i,j,i,j+1,i,j+2,i+1,j, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j] = 7;
             }
             else if (PieceEight(cell, i, j) && (!PiezasAnteriores(8)))
             {
-                pieces.Add(new Piece(8, symbol,0, i, j, i, j + 1, i + 1, j, i + 1, j + 1));
+                pieces.Add(new Piece(8, symbol,0, i, j, i, j + 1, i + 1, j, i + 1, j + 1, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i + 1, j] = cell[i + 1, j + 1] = 8;
             }
             else if (PieceNine(cell, i, j) && (!PiezasAnteriores(9)))
             {
-                pieces.Add(new Piece(9, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j - 1));
+                pieces.Add(new Piece(9, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j - 1, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j - 1]=9;
             }
             else if (PieceTwo(cell, i, j) && (!PiezasAnteriores(2)))
             {
-                pieces.Add(new Piece(2, symbol,0, i, j, i, j + 1, i, j + 2, i, j + 3));
+                pieces.Add(new Piece(2, symbol,0, i, j, i, j + 1, i, j + 2, i, j + 3, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i, j + 3] = 2;
             }
             else if (PieceTen(cell, i, j) && (!PiezasAnteriores(10)))
             {
-                pieces.Add(new Piece(10, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 2));
+                pieces.Add(new Piece(10, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 2, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 2] = 10;
             }
             else if (PieceFourteen(cell, i, j) && (!PiezasAnteriores(14)))
             {
-                pieces.Add(new Piece(14, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1));
+                pieces.Add(new Piece(14, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j + 1, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j + 1] = 14;
             }
             else if (PieceThree(cell, i, j) && (!PiezasAnteriores(3)))
             {
-                pieces.Add(new Piece(3, symbol,0, i, j, i + 1, j, i + 2, j, i + 3, j));
+                pieces.Add(new Piece(3, symbol,0, i, j, i + 1, j, i + 2, j, i + 3, j, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 3, j] = 3;
             }
             else if (PieceEleven(cell, i, j) && (!PiezasAnteriores(11)))
             {
-                pieces.Add(new Piece(11, symbol,0, i, j, i, j + 1, i + 1, j, i + 2, j));
+                pieces.Add(new Piece(11, symbol,0, i, j, i, j + 1, i + 1, j, i + 2, j, val, val, val, val));
                 cell[i,j]=cell[i,j+1]=cell[i+1,j]=cell[i+2,j]= 11;
 
             }
             else if (PieceFour(cell, i, j) && (!PiezasAnteriores(4)))
             {
-                pieces.Add(new Piece(4, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j + 1));
+                pieces.Add(new Piece(4, symbol,0, i, j, i + 1, j, i + 2, j, i + 2, j + 1, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 2, j] = cell[i + 2, j + 1] = 4;
             }
             else if (PieceTwelve(cell, i, j) && (!PiezasAnteriores(12)))
             {
-                pieces.Add(new Piece(12,symbol,0,i,j,i+1,j,i+1,j+1,i+1,j+2));
+                pieces.Add(new Piece(12,symbol,0,i,j,i+1,j,i+1,j+1,i+1,j+2, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 1, j + 2] = 12;
             }
             else if (PieceThirteen(cell, i, j) && (!PiezasAnteriores(13)))
             {
-                pieces.Add(new Piece(13, symbol,0,i,j,i,j+1,i+1,j-1,i+1,j));
+                pieces.Add(new Piece(13, symbol,0,i,j,i,j+1,i+1,j-1,i+1,j, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i + 1, j - 1] = cell[i + 1, j] = 13;
             }
 
             else if(PieceFifteen(cell, i, j) && (!PiezasAnteriores(15)))
             {
-                pieces.Add(new Piece(15, symbol,0,i,j,i,j+1,i+1,j+1,i+1,j+2));
+                pieces.Add(new Piece(15, symbol,0,i,j,i,j+1,i+1,j+1,i+1,j+2, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i + 1, j + 1] = cell[i + 1, j + 2]=15;
             }
 
             else if (PieceSeventeen(cell, i, j) && (!PiezasAnteriores(17)))
             {
-                pieces.Add(new Piece(17, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 1));
+                pieces.Add(new Piece(17, symbol,0, i, j, i, j + 1, i, j + 2, i + 1, j + 1, val, val, val, val));
                 cell[i, j] = cell[i, j + 1] = cell[i, j + 2] = cell[i + 1, j + 1]=17;
             }
             else if (PieceEighteen(cell, i, j) && (!PiezasAnteriores(18)))
             {
-                pieces.Add(new Piece(18, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j));
+                pieces.Add(new Piece(18, symbol,0, i, j, i + 1, j, i + 1, j + 1, i + 2, j, val, val, val, val));
                 cell[i, j] = cell[i + 1, j] = cell[i + 1, j + 1] = cell[i + 2, j]=18;
             }
 
             else if (PieceTwenty(cell, i, j) && (!PiezasAnteriores(20)))
             {
-                pieces.Add(new Piece(20, symbol,0, i, j,i+1,j-1,i+1,j,i+2,j));
+                pieces.Add(new Piece(20, symbol,0, i, j,i+1,j-1,i+1,j,i+2,j, val, val, val, val));
                 cell[i, j] = cell[i + 1, j - 1] = cell[i + 1, j] = cell[i + 2, j] = 20;
             }
             else if (PieceOne(cell, i, j))
             {
-                pieces.Add(new Piece(1, symbol,0, i, j, -1, -1, -1, -1, -1, -1));
+                pieces.Add(new Piece(1, symbol,0, i, j, -1, -1, -1, -1, -1, -1, val, val, val, val));
                 cell[i, j] = 1;
             }
             return cell;
@@ -776,6 +777,17 @@ namespace Proyecto_2___Killer_Sudoku
             
 
         } 
+        public int values(int symbol)
+        {
+            if (symbol == 1)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
         public override string ToString()
         {
             var SB = new StringBuilder();

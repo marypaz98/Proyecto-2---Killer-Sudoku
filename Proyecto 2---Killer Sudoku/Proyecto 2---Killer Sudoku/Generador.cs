@@ -86,7 +86,7 @@ namespace Proyecto_2___Killer_Sudoku
                 var rnd2 = new Random(Guid.NewGuid().GetHashCode());
                 int x = rnd1.Next(0, ColmAndRow);
                 int y = rnd2.Next(0, ColmAndRow);
-                Console.WriteLine("x=" + x + "y=" + y);
+       
                 if (x != y )
                 {
                     Console.WriteLine("Entró");

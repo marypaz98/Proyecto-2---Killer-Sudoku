@@ -57,6 +57,7 @@
     <Compile Include="Piece.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="savePossibilities.cs" />
     <Compile Include="Solve.cs" />
     <Compile Include="Solver.cs" />
     <EmbeddedResource Include="Form1.resx">

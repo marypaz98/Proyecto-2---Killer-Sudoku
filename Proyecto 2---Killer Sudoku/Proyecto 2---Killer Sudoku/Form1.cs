@@ -38,8 +38,6 @@ namespace Proyecto_2___Killer_Sudoku
                     var box = GetTextBoxAt(row, clm);
                     if (box != null)
                     {
-                     this._generador.sudoku[row, clm] = 0;
-                        //}
                         foreach (Piece pieza in _generador.pieces)
                         {
                             
@@ -49,26 +47,22 @@ namespace Proyecto_2___Killer_Sudoku
                                 {
                                     if (pieza.symbol == 1)
                                     {
-                                        resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] + _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
-                                        + _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] + _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
-                                        simbolo = "+";
-                                        pieza.resultado = resultado;
+                                          simbolo = "+";
+                                        
                                     }
                                     else
                                     {
-                                        resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]] * _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
-                                        * _generador.Numbers[pieza.cell3[0], pieza.cell3[1]] * _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
-                                        simbolo = "x";
-                                        pieza.resultado = resultado;
+                                          simbolo = "x";
+                                        
                                     }
-                                    this._generador.sudoku[row, clm] = 0;
-                                    concatenado = String.Concat(simbolo, resultado);
+                                    
+                                    concatenado = String.Concat(simbolo, pieza.resultado);
                                     box.Text = concatenado;
 
                                 }
                                 else
                                 {
-                                    resultado = _generador.Numbers[pieza.cell1[0], pieza.cell1[1]];
+                                    resultado = pieza.resultado;
                                     if (resultado >= 10)
                                     {
                                         string hex = resultado.ToString("X");
@@ -80,7 +74,6 @@ namespace Proyecto_2___Killer_Sudoku
                                         box.Text = concatenado;
                                         
                                     }
-                                    this._generador.sudoku[row, clm] = resultado;
                                 }
                             }
 
@@ -161,93 +154,99 @@ namespace Proyecto_2___Killer_Sudoku
         private void ShowGameOtherPanel()
         {
             _solver = new Solver(tamaño, _generador.Numbers);
-   
-            var rnd1 = new Random(Guid.NewGuid().GetHashCode());
-            for (int row = 0; row < PanelResuelto.RowCount; row++)
+            if (_solver.res == false)
             {
-                for (int clm = 0; clm < PanelResuelto.ColumnCount; clm++)
+                MessageBox.Show("No se encontró solución", "error");
+            }
+            else
+            {
+                var rnd1 = new Random(Guid.NewGuid().GetHashCode());
+                for (int row = 0; row < PanelResuelto.RowCount; row++)
                 {
-                    var box = GetTextBoxAt1(row, clm);
-                    if (box != null)
+                    for (int clm = 0; clm < PanelResuelto.ColumnCount; clm++)
                     {
-
-                        if (_solver.sudoku[row, clm] >= 10)
+                        var box = GetTextBoxAt1(row, clm);
+                        if (box != null)
                         {
-                            int n = this._solver.sudoku[row, clm];
-                            string hex = n.ToString("X");
-                            box.Text = hex;
-                        }
-                        else
-                        {
-                            box.Text = this._solver.sudoku[row, clm].ToString();
 
+                            if (_solver.sudoku[row, clm] >= 10)
+                            {
+                                int n = this._solver.sudoku[row, clm];
+                                string hex = n.ToString("X");
+                                box.Text = hex;
+                            }
+                            else
+                            {
+                                box.Text = this._solver.sudoku[row, clm].ToString();
+
+                            }
                         }
-                    }
-                    switch (this._solver.pieces[row, clm])
-                    {
-                        case 1:
-                            box.BackColor = Color.SlateGray;
-                            break;
-                        case 2:
-                            box.BackColor = Color.Blue;
-                            break;
-                        case 3:
-                            box.BackColor = Color.Green;
-                            break;
-                        case 4:
-                            box.BackColor = Color.Yellow;
-                            break;
-                        case 5:
-                            box.BackColor = Color.RosyBrown;
-                            break;
-                        case 6:
-                            box.BackColor = Color.Fuchsia;
-                            break;
-                        case 7:
-                            box.BackColor = Color.Red;
-                            break;
-                        case 8:
-                            box.BackColor = Color.MediumAquamarine;
-                            break;
-                        case 9:
-                            box.BackColor = Color.Indigo;
-                            break;
-                        case 10:
-                            box.BackColor = Color.LightSalmon;
-                            break;
-                        case 11:
-                            box.BackColor = Color.Turquoise;
-                            break;
-                        case 12:
-                            box.BackColor = Color.Maroon;
-                            break;
-                        case 13:
-                            box.BackColor = Color.MidnightBlue;
-                            break;
-                        case 14:
-                            box.BackColor = Color.SkyBlue;
-                            break;
-                        case 15:
-                            box.BackColor = Color.Olive;
-                            break;
-                        case 16:
-                            box.BackColor = Color.Teal;
-                            break;
-                        case 17:
-                            box.BackColor = Color.Plum;
-                            break;
-                        case 18:
-                            box.BackColor = Color.RosyBrown;
-                            break;
-                        case 19:
-                            box.BackColor = Color.Purple;
-                            break;
-                        case 20:
-                            box.BackColor = Color.SeaShell;
-                            break;
+                        switch (this._solver.pieces[row, clm])
+                        {
+                            case 1:
+                                box.BackColor = Color.SlateGray;
+                                break;
+                            case 2:
+                                box.BackColor = Color.Blue;
+                                break;
+                            case 3:
+                                box.BackColor = Color.Green;
+                                break;
+                            case 4:
+                                box.BackColor = Color.Yellow;
+                                break;
+                            case 5:
+                                box.BackColor = Color.RosyBrown;
+                                break;
+                            case 6:
+                                box.BackColor = Color.Fuchsia;
+                                break;
+                            case 7:
+                                box.BackColor = Color.Red;
+                                break;
+                            case 8:
+                                box.BackColor = Color.MediumAquamarine;
+                                break;
+                            case 9:
+                                box.BackColor = Color.Indigo;
+                                break;
+                            case 10:
+                                box.BackColor = Color.LightSalmon;
+                                break;
+                            case 11:
+                                box.BackColor = Color.Turquoise;
+                                break;
+                            case 12:
+                                box.BackColor = Color.Maroon;
+                                break;
+                            case 13:
+                                box.BackColor = Color.MidnightBlue;
+                                break;
+                            case 14:
+                                box.BackColor = Color.SkyBlue;
+                                break;
+                            case 15:
+                                box.BackColor = Color.Olive;
+                                break;
+                            case 16:
+                                box.BackColor = Color.Teal;
+                                break;
+                            case 17:
+                                box.BackColor = Color.Plum;
+                                break;
+                            case 18:
+                                box.BackColor = Color.RosyBrown;
+                                break;
+                            case 19:
+                                box.BackColor = Color.Purple;
+                                break;
+                            case 20:
+                                box.BackColor = Color.SeaShell;
+                                break;
+                        }
                     }
                 }
-            }             
+            }            
         }
         
         private void Clear()

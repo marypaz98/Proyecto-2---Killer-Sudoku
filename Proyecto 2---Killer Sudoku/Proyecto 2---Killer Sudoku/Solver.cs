@@ -15,33 +15,74 @@ namespace Proyecto_2___Killer_Sudoku
         public List<Piece> piezas;
         public int[,] pieces;
         public int[,] Sudoku;
-        public List<int[]> numerosUsados;
+        public bool res=true;
         private int contadorUsados;
-        
+        private List<int[]> posibilidades;
+
 
         public Solver(int tam, int[,] s)
         {
+            
             clmAndRow = tam;
             Sudoku = s;
             sudoku = new int[clmAndRow, clmAndRow];
             piezas = new List<Piece>();
             pieces = new int[clmAndRow, clmAndRow];
+            posibilidades = new List< int[]>();
+            String[] pos = crearVector(clmAndRow);
+ 
             infoArchivo = archivoSudoku.ReadFile();
             getSudoku();
+            listaPosibilidades(pos, "", 4, clmAndRow);
+            ImprimirPosibilades(posibilidades);
+              resolver();
 
-
-            resolver();
-
+        }
+        public String[] crearVector (int tam)
+        {
+            String[] elements = new string[tam];
+            for (int i=1; i <= tam; i++)
+            {
+                elements[i - 1] = i.ToString() ;
+            }
+            return elements;
+            
+        }
+        public void listaPosibilidades(String[] elem, String act, int n, int r)
+        {
+            if (n == 0)
+            {
+                posibilidades.Add(new int[4]);
+                String[] comb = act.Split(',');
+                
+                
+                int[] com = new int[comb.Length-1];
+                for(int i=0; i < comb.Length-1; i++)
+                {
+                    com[i] = int.Parse(comb[i]);
+                }
+                for(int i=0; i < com.Length; i++)
+                {
+                    posibilidades[posibilidades.Count - 1][i] = com[i];
+                }
+            }
+            else
+            {
+                for(int i=0; i < r; i++)
+                {
+                    listaPosibilidades(elem, act + elem[i] + ",", n - 1, r);
+                }
+            }
         }
         public void getSudoku()
         {
             String matriz = "";
             String piezas = "";
-            String caracter = infoArchivo.Substring(0, 1); 
+            String caracter = infoArchivo.Substring(0, 1);
             int contador = 1;
             while (caracter != "&")
             {
-                if (caracter != " " && caracter!="\n")
+                if (caracter != " " && caracter != "\n")
                 {
                     matriz = String.Concat(matriz, caracter);
                 }
@@ -53,7 +94,7 @@ namespace Proyecto_2___Killer_Sudoku
                 caracter = infoArchivo.Substring(i, 1);
                 piezas = String.Concat(piezas, caracter);
             }
-            matriz= matriz.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
+            matriz = matriz.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
             piezas = piezas.Replace(" ", "");
             getMatriz(matriz);
             getPiece(piezas);
@@ -65,13 +106,13 @@ namespace Proyecto_2___Killer_Sudoku
             int contador = 0;
             string caracter = "";
             string[] caracteres = matriz.Split('?');
-            for(int i=0; i < clmAndRow; i++)
+            for (int i = 0; i < clmAndRow; i++)
             {
                 for (int j = 0; j < clmAndRow; j++)
                 {
                     if (contador < caracteres.Length)
                     {
-                      
+
                         if (caracteres[contador] != "\n" || caracteres[contador] != "\r" || caracteres[contador] != "\r\n")
                         {
                             caracter = caracteres[contador];
@@ -87,20 +128,19 @@ namespace Proyecto_2___Killer_Sudoku
             }
 
         }
-        private int generarRandom(int n1, int n2, int tam) 
+        private int generarRandom(int n1, int n2, int tam)
         {
             var aleatorios = new Random(Guid.NewGuid().GetHashCode());
-          /*  if (contadorUsados==tam)
+            if (contadorUsados == tam*100000)
             {
-                contadorUsados = 0;
                 return Sudoku[n1, n2];
             }
             else
             {
-                contadorUsados++;*/
+                
                 return aleatorios.Next(1, tam + 1);
                 
-           // }
+            }
         }
         public void getPiece(string pieza)
         {
@@ -189,6 +229,7 @@ namespace Proyecto_2___Killer_Sudoku
             Piece pieza =new Piece(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
             bool isEmpty = true;
             int cont = 0;
+            int c = 0;
             foreach(Piece p in piece)
             {
                 if (!p.resuelto&&p.Figure!=1)
@@ -216,63 +257,70 @@ namespace Proyecto_2___Killer_Sudoku
             int c4 = pieza.cell4[1];
             bool si = false;
             int uno, dos, tres, cuatro;
-            while (!si)
+            for(int i=0; i<posibilidades.Count&&!si;i++)
             {
                 int n1, n2, n3, n4;
-                Console.WriteLine("C");
-                uno = generarRandom(r1,c1,n);
-                dos = generarRandom(r2, c2, n);
-                tres = generarRandom(r3, c3, n);
-                cuatro = generarRandom(r4, c4, n);
+                 Console.WriteLine(posibilidades.Count);
+                int mitad = posibilidades.Count / 2;
+                int x = posibilidades.ElementAt(mitad)[0] * posibilidades.ElementAt(mitad)[1] * posibilidades.ElementAt(mitad)[2] * posibilidades.ElementAt(mitad)[3];
+                if (pieza.resultado >= x&&c==0){
+                    i = mitad;
+                    c = 1;
+                }
+                uno = posibilidades.ElementAt(i)[0];
+                dos = posibilidades.ElementAt(i)[1];
+                tres = posibilidades.ElementAt(i)[2];
+                cuatro = posibilidades.ElementAt(i)[3];
+                Console.WriteLine(uno + " " + dos + " " + tres + " " + cuatro);
+                
                 n1 = uno;
                 n2 = dos;
                 n3 = tres;
                 n4 = cuatro;
-                Console.WriteLine(uno + " " + dos + " " + tres + " "+cuatro);
-
-                if (match_Piece(matriz, uno, dos, tres, cuatro, pieza))
+             //   Console.WriteLine(uno + " " + dos + " " + tres + " "+cuatro);
+                if (match_Piece(matriz, uno, dos, tres, cuatro, pieza,contadorUsados))
                 {
                     si = true;
                 }
-                else if(match_Piece(matriz, uno, dos, cuatro, tres, pieza))
+                else if(match_Piece(matriz, uno, dos, cuatro, tres, pieza, contadorUsados))
                 {
                     tres = n4;
                     cuatro = n3;
                     si = true;
                 }
-                else if(match_Piece(matriz, uno, tres, dos, cuatro, pieza))
+                else if(match_Piece(matriz, uno, tres, dos, cuatro, pieza, contadorUsados))
                 {
                     dos = n3;
                     tres = n2;
                     si=true;
                 }
-                else if(match_Piece(matriz, uno, tres, cuatro, dos, pieza))
+                else if(match_Piece(matriz, uno, tres, cuatro, dos, pieza, contadorUsados))
                 {
                     dos = n3;
                     tres = n4;
                     cuatro = n2;
                     si = true;
                 }
-                else if(match_Piece(matriz, uno, cuatro, dos, tres, pieza))
+                else if(match_Piece(matriz, uno, cuatro, dos, tres, pieza, contadorUsados))
                 {
                     dos = n4;
                     tres = n2;
                     cuatro = n3;
                     si = true;
                 }
-                else if(match_Piece(matriz, uno, cuatro, tres, dos, pieza))
+                else if(match_Piece(matriz, uno, cuatro, tres, dos, pieza, contadorUsados))
                 {
                     dos = n4;
                     cuatro = n2;
                     si = true;
                 }
-                else if (match_Piece(matriz, dos, uno, tres, cuatro, pieza))
+                else if (match_Piece(matriz, dos, uno, tres, cuatro, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n1;
                     si = true;
                 }
-                else if(match_Piece(matriz, dos, uno, cuatro, tres, pieza))
+                else if(match_Piece(matriz, dos, uno, cuatro, tres, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n1;
@@ -280,14 +328,14 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n3;
                     si = true;
                 }
-                else if (match_Piece(matriz, dos, tres, uno, cuatro, pieza))
+                else if (match_Piece(matriz, dos, tres, uno, cuatro, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n3;
                     tres = n1;
                     si = true;
                 }
-                else if(match_Piece(matriz, dos, tres, cuatro, uno, pieza))
+                else if(match_Piece(matriz, dos, tres, cuatro, uno, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n3;
@@ -295,7 +343,7 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n1;
                     si = true;
                 }
-                else if(match_Piece(matriz, dos, cuatro, uno, tres, pieza))
+                else if(match_Piece(matriz, dos, cuatro, uno, tres, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n4;
@@ -303,20 +351,20 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n3;
                     si = true;
                 }
-                else if(match_Piece(matriz, dos, cuatro, tres, uno, pieza))
+                else if(match_Piece(matriz, dos, cuatro, tres, uno, pieza, contadorUsados))
                 {
                     uno = n2;
                     dos = n4;
                     cuatro = n1;
                     si = true;
                 }
-                else if (match_Piece(matriz, tres, uno, dos, cuatro, pieza)) {
+                else if (match_Piece(matriz, tres, uno, dos, cuatro, pieza, contadorUsados)) {
                     uno = n3;
                     dos = n1;
                     tres = n2;
                     si = true;
                 }
-                else if(match_Piece(matriz, tres, uno, cuatro, dos, pieza))
+                else if(match_Piece(matriz, tres, uno, cuatro, dos, pieza, contadorUsados))
                 {
                     uno = n3;
                     dos = n1;
@@ -324,20 +372,20 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n2;
                     si = true;
                 }
-                else if(match_Piece(matriz, tres, dos, uno, cuatro, pieza))
+                else if(match_Piece(matriz, tres, dos, uno, cuatro, pieza, contadorUsados))
                 {
                     uno = n3;
                     tres = n1;
                     si =true;
                 }
-                else if(match_Piece(matriz, tres, dos, cuatro, uno, pieza))
+                else if(match_Piece(matriz, tres, dos, cuatro, uno, pieza, contadorUsados))
                 {
                     uno = n3;
                     tres = n4;
                     cuatro = n1;
                     si = true;
                 }
-                else if(match_Piece(matriz, tres, cuatro, uno, dos, pieza))
+                else if(match_Piece(matriz, tres, cuatro, uno, dos, pieza, contadorUsados))
                 {
                     uno = n3;
                     dos = n4;
@@ -345,14 +393,14 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n2;
                     si = true;
                 }
-                else if (match_Piece(matriz, tres, cuatro, dos, uno, pieza)) {
+                else if (match_Piece(matriz, tres, cuatro, dos, uno, pieza, contadorUsados)) {
                     uno = n3;
                     dos = n4;
                     tres = n2;
                     cuatro = n1;
                     si = true;
                 }
-                else if (match_Piece(matriz, cuatro, uno, dos, tres, pieza))
+                else if (match_Piece(matriz, cuatro, uno, dos, tres, pieza, contadorUsados))
                 {
                     uno = n4;
                     dos = n1;
@@ -360,27 +408,27 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n3;
                     si = true;
                 }
-                else if(match_Piece(matriz, cuatro, uno, tres, dos, pieza))
+                else if(match_Piece(matriz, cuatro, uno, tres, dos, pieza, contadorUsados))
                 {
                     uno = n4;
                     dos = n1;
                     cuatro = n2;
                     si = true;
                 }
-                else if (match_Piece(matriz, cuatro, dos, uno, tres, pieza))
+                else if (match_Piece(matriz, cuatro, dos, uno, tres, pieza, contadorUsados))
                 {
                     uno = n4;
                     tres = n1;
                     cuatro = n3;
                     si = true;
                 }
-                else if(match_Piece(matriz, cuatro, dos, tres, uno, pieza))
+                else if(match_Piece(matriz, cuatro, dos, tres, uno, pieza, contadorUsados))
                 {
                     uno = n4;
                     cuatro = n1;
                     si = true;
                 }
-                else if(match_Piece(matriz, cuatro, tres, uno, dos, pieza))
+                else if(match_Piece(matriz, cuatro, tres, uno, dos, pieza, contadorUsados))
                 {
                     uno = n4;
                     dos = n3;
@@ -388,13 +436,17 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n2;
                     si = true;
                 }
-                else if(match_Piece(matriz, cuatro, tres, dos, uno, pieza))
+                else if(match_Piece(matriz, cuatro, tres, dos, uno, pieza, contadorUsados))
                 {
                     uno = n4;
                     dos = n3;
                     tres = n2;
                     cuatro = n1;
                     si = true;
+                }
+                if (isFull(matriz, n))
+                {
+                    return true;
                 }
                 if (si)
                 {
@@ -413,6 +465,7 @@ namespace Proyecto_2___Killer_Sudoku
                     {
                         Console.WriteLine("e");
                         piece.ElementAt(cont).resuelto = false;
+                        si = false;
                         matriz[pieza.cell1[0], pieza.cell1[1]] = 0;
                         matriz[pieza.cell2[0], pieza.cell2[1]] = 0;
                         matriz[pieza.cell3[0], pieza.cell3[1]] = 0;
@@ -424,65 +477,10 @@ namespace Proyecto_2___Killer_Sudoku
 
 
         }
-
-
-        public  bool solveSudoku(int[,] matriz, int n)
-        {
-            numerosUsados = new List<int[]>();
-            int row = -1;
-            int col = -1;
-            bool isEmpty = true;
-            Piece p;
-            for (int i=0; i<n; i++)
-            {
-                for(int j=0; j < n; j++)
-                {
-                    if (matriz[i, j] == 0)
-                    {
-                        row = i;
-                        col = j;
-                        isEmpty = false;
-                        break;
-                    }
-                }
-                if (!isEmpty)
-                {
-                    break;
-                }
-            }
-            if (isEmpty)
-            {
-                return true;
-            }
-            // else for each-row backtrack 
-            for (int num = 1; num <= n; num++)
-            {
-                if(isSafe(matriz,num,row, col))
-                {
-
-                    p = escogerPieza(row, col, num);
-
-                    matriz[row, col] = num;
-                    if (solveSudoku(matriz, n))
-                    {
-  
-                        // print(matriz, n);
-                        return true;
-                    }
-                    else
-                    {
-          
-                        matriz[row, col] = 0; //replace it
-                    }
-                }
-            }
-            return false;
-        }
      
         public  void resolver()
         {
             int N = sudoku.GetLength(0);
-            Imprimir(sudoku);
             if (solvSudoku(sudoku, N, piezas))
             {
                 Imprimir(sudoku);
@@ -490,25 +488,11 @@ namespace Proyecto_2___Killer_Sudoku
             }
             else
             {
+                res = false;
                 Console.WriteLine("No solución");
             }
         }
-        private int imprimir1( Piece p)
-        {
-            return Sudoku[p.cell1[0], p.cell1[1]];
-        }
-        private int imprimir2( Piece p)
-        {
-            return Sudoku[p.cell2[0], p.cell2[1]];
-        }
-        private int imprimir3(Piece p)
-        {
-            return Sudoku[p.cell3[0], p.cell3[1]];
-        }
-        private int imprimir4( Piece p)
-        {
-            return Sudoku[p.cell4[0], p.cell4[1]];
-        }
+
         public void ImprimirPiezas(List<Piece> p)
         {
             foreach (Piece pieza in p)
@@ -518,28 +502,18 @@ namespace Proyecto_2___Killer_Sudoku
                     " celda3: "+pieza.cell3[0]+","+pieza.cell3[1]+" celda4:"+pieza.cell4[0]+","+pieza.cell4[1]);
             }
         }
-        private bool buscar(int[] n, int n1)
+        public void ImprimirPosibilades(List<int[]> p)
         {
-            for(int i=0; i < n.Length; i++)
+            int x= 0;
+            Console.WriteLine("posibilidades: "+posibilidades.Count);   
+            foreach(int[] pos in p)
             {
-                if (n1 == n[i])
-                {
-                    return true; 
-                }
+                Console.WriteLine(x);
+                x++;
+                Console.WriteLine(pos[0] + " " + pos[1] + " " + pos[2] + " " + pos[3]);
             }
-            return false;
         }
-        private bool buscarNumeros(int n1, int n2, int n3, int n4)
-        {
-            foreach(int[] num in numerosUsados)
-            {
-                if (buscar(num, n1) && buscar(num, n2) && buscar(num, n3) && buscar(num, n4))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+
         public void Imprimir(int[,] mat)
         {
             for (int f = 0; f < mat.GetLength(0); f++)
@@ -550,39 +524,6 @@ namespace Proyecto_2___Killer_Sudoku
                 }
                 Console.WriteLine();
             }
-        }
-        private Piece escogerPieza(int row, int col, int num)
-        {
-            Piece y= new Piece(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-            foreach(Piece p in piezas)
-            {
-                if (p.cell1[0] == row && p.cell1[1]==col)
-                {
-                    y= p;
-                    p.valor1 = num;
-                    break;
-                }
-                else if(p.cell2[0]== row && p.cell2[1] == col)
-                {
-                    y= p;
-                    p.valor2 = num;
-                    break;
-                }
-                else if (p.cell3[0]==row && p.cell3[1] == col)
-                {
-                    y= p;
-                    p.valor3 = num;
-                    break;
-                    
-                }
-                else if (p.cell4[0]==row && p.cell4[1] == col)
-                {
-                    y = p;
-                    p.valor4 = num;
-                    break;
-                }
-            }
-            return y;
         }
         
         public int values(int symbol)
@@ -596,9 +537,77 @@ namespace Proyecto_2___Killer_Sudoku
                 return 1;
             }
         }
-
-        private bool match_Piece(int[,] matriz,int v1, int v2, int v3, int v4,Piece p)
+        private bool matchOtherPiece(int v1, int v2, int v3, int v4, Piece p)
         {
+            if (v1 == v2)
+            {
+                if (p.cell1[0] == p.cell2[0] || p.cell1[1] == p.cell2[1])
+                {
+                    return false;
+                }
+            }
+            else if (v1 == v3)
+            {
+                if (p.cell1[0] == p.cell3[0] || p.cell1[1] == p.cell3[1])
+                {
+                    return false;
+                }
+            }
+            else if (v1 == v4)
+            {
+                if (p.cell1[0] == p.cell4[0] || p.cell1[1] == p.cell4[1])
+                {
+                    return false;
+                }
+            }
+            else if (v2 == v3)
+            {
+                if (p.cell2[0] == p.cell3[0] || p.cell2[1] == p.cell3[1])
+                {
+                    return false;
+                }
+            }
+            else if (v2 == v4)
+            {
+                if (p.cell2[0] == p.cell4[0] || p.cell2[1] == p.cell4[1])
+                {
+                    return false;
+                }
+            }
+            else if (v3 == v4)
+            {
+                if (p.cell3[0] == p.cell4[0] || p.cell3[1] == p.cell4[1])
+                {
+                    return false;
+                }
+            }
+            return true;
+
+        }
+        private bool isFull(int[,] matriz, int n)
+        {
+            for(int i=0; i < n; i++)
+            {
+                for (int j=0; j<n; j++)
+                {
+                    if (matriz[i, j] == 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        private bool match_Piece(int[,] matriz,int v1, int v2, int v3, int v4,Piece p, int cont)
+        {
+            /*    if (cont != clmAndRow*100000)
+                {
+                    return false;
+                }*/
+            if (!matchOtherPiece(v1,v2,v3,v4,p))
+            {
+                return false;
+            }
             bool flag;
             if ((isSafe(matriz, v1, p.cell1[0], p.cell1[1]) == false) || (isSafe(matriz, v2, p.cell2[0], p.cell2[1]) == false) || (isSafe(matriz, v3, p.cell3[0], p.cell3[1]) == false) || (isSafe(matriz, v4, p.cell4[0], p.cell4[1]) == false))
             {

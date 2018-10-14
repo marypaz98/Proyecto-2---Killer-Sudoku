@@ -23,21 +23,12 @@ namespace Proyecto_2___Killer_Sudoku
             Imprimir(Numbers);
             Update(ColmAndRow+1);
             PieceGenerator();
+            Clear();
             Imprimir(Numbers);
 
         }
 
-        private bool Verifica(int[,] matriz, int f, int c, int num, int tam)
-        {
-            for(int i=0; i < tam; i++)
-            {
-                if (matriz[f, i] == num || matriz[i, c] == num)
-                {
-                    return false;
-                }
-            }
-            return true; 
-        }
+
         private void NumberGenerator() {
             Numbers = new int[ColmAndRow, ColmAndRow];
             pieces = new List<Piece>();
@@ -89,7 +80,6 @@ namespace Proyecto_2___Killer_Sudoku
         
         private void Update(int grid) {
             int[] filasListas = new int[ColmAndRow];
-            int cont = 0;
             for (int i = 0; i < grid; i++)
             {
                 var rnd1 = new Random(Guid.NewGuid().GetHashCode());
@@ -101,9 +91,6 @@ namespace Proyecto_2___Killer_Sudoku
                 {
                     Console.WriteLine("Entró");
                     ChangeCells(x, y);
-                    //filasListas[cont] = x;
-                    //filasListas[cont + 1] = y;
-                    //cont += 2;
                 }
             }
         }
@@ -408,6 +395,47 @@ namespace Proyecto_2___Killer_Sudoku
             }
             piezas = cell;
 
+        }
+        private void Clear()
+        {
+            int resultado;
+            string simbolo;
+            for (int row = 0; row < ColmAndRow; row++)
+            {
+                for (int clm = 0; clm < ColmAndRow; clm++)
+                {
+                    foreach (Piece pieza in pieces)
+                    {
+
+                        if (row == pieza.cell1[0] && clm == pieza.cell1[1])
+                        {
+                            if (pieza.Figure != 1)
+                            {
+                                if (pieza.symbol == 1)
+                                {
+                                    resultado = Numbers[pieza.cell1[0], pieza.cell1[1]] + Numbers[pieza.cell2[0], pieza.cell2[1]]
+                                    + Numbers[pieza.cell3[0], pieza.cell3[1]] + Numbers[pieza.cell4[0], pieza.cell4[1]];
+                                    pieza.resultado = resultado;
+                                }
+                                else
+                                {
+                                    resultado = Numbers[pieza.cell1[0], pieza.cell1[1]] * Numbers[pieza.cell2[0], pieza.cell2[1]]
+                                    * Numbers[pieza.cell3[0], pieza.cell3[1]] * Numbers[pieza.cell4[0], pieza.cell4[1]];
+                                    simbolo = "x";
+                                    pieza.resultado = resultado;
+                                }
+                                sudoku[row, clm] = 0;
+                            }
+                            else
+                            {
+                                resultado = Numbers[pieza.cell1[0], pieza.cell1[1]];
+                                sudoku[row, clm] = resultado;
+                                pieza.resultado = resultado;
+                            }
+                        }
+                    }
+                }
+            }
         }
         private bool PiezasAnteriores(int newPiece) {
             bool bandera = false;

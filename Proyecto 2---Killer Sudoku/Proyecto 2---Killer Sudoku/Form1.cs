@@ -461,7 +461,9 @@ namespace Proyecto_2___Killer_Sudoku
             determinarAnchoPanelResuelto();
             PanelResuelto.AutoScroll = true;
             CreateTextBoxes1();
+            Console.WriteLine("1 "+DateTime.Now.ToString("hh:mm"));
             ShowGameOtherPanel();
+            Console.WriteLine("2 "+DateTime.Now.ToString("hh:mm"));
         }
     }
 }

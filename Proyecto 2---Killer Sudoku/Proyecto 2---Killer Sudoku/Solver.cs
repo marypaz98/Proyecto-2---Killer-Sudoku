@@ -37,7 +37,6 @@ namespace Proyecto_2___Killer_Sudoku
             infoArchivo = archivoSudoku.ReadFile();
             getSudoku();
             listaPosibilidades(pos, "", 4, clmAndRow);
-            ImprimirPosibilades(posibilidades);
               resolver();
 
         }
@@ -55,7 +54,7 @@ namespace Proyecto_2___Killer_Sudoku
         {
             if (n == 0)
             {
-                posibilidades.Add(new int[4]);
+                
                 String[] comb = act.Split(',');
                 
                 
@@ -64,10 +63,7 @@ namespace Proyecto_2___Killer_Sudoku
                 {
                     com[i] = int.Parse(comb[i]);
                 }
-                for(int i=0; i < com.Length; i++)
-                {
-                    posibilidades[posibilidades.Count - 1][i] = com[i];
-                }
+                posibilidades.Add(new int[4] {com[0], com[1],com[2],com[3] });
             }
             else
             {
@@ -263,7 +259,6 @@ namespace Proyecto_2___Killer_Sudoku
                 posListas.Add(new savePossibilities(pieza.resultado,pieza.symbol,posibleCombinaciones));
             }
             int uno, dos, tres, cuatro;
-            
             for(int i=0; i< posibleCombinaciones.Count&&!si;i++)
             {
                 int n1, n2, n3, n4;
@@ -444,10 +439,6 @@ namespace Proyecto_2___Killer_Sudoku
                     cuatro = n1;
                     si = true;
                 }
-                if (isFull(matriz, n))
-                {
-                    return true;
-                }
                 if (si)
                 {
                     matriz[pieza.cell1[0], pieza.cell1[1]]=uno;
@@ -505,45 +496,15 @@ namespace Proyecto_2___Killer_Sudoku
         private List<int[]> generateSum(int result)
         {
             List<int[]> res= new List<int[]>();
-            int[] con = new int[4];
-
-            foreach (int[] i in posibilidades)
-            {
-                if (i[0] + i[1] + i[2] + i[3]==result)
-                {
-                    con[0] = i[0];
-                    con[1] = i[1];
-                    con[2] = i[2];
-                    con[3] = i[3];
-                    res.Add(new int[4]);
-                    for (int j = 0; j < con.Length; j++)
-                    {
-                        res[res.Count - 1][j] = con[j];
-                    }
-                }
-            }
+            IEnumerable<int[]> r = posibilidades.Where(x=> x[0]+x[1]+x[2]+x[3]==result);
+            res = r.ToList();
             return res;
         }
         private List<int[]> generateMul(int result)
         {
             List<int[]> res = new List<int[]>();
-            int[] con = new int[4];
-
-            foreach (int[] i in posibilidades)
-            {
-                if (i[0] * i[1] * i[2] * i[3] == result)
-                {
-                    con[0] = i[0];
-                    con[1] = i[1];
-                    con[2] = i[2];
-                    con[3] = i[3];
-                    res.Add(new int[4]);
-                    for (int j = 0; j < con.Length; j++)
-                    {
-                        res[res.Count - 1][j] = con[j];
-                    }
-                }
-            }
+            IEnumerable<int[]> r = posibilidades.Where(x => x[0] * x[1] * x[2] * x[3] == result);
+            res = r.ToList();
             return res;
         }
         public void ImprimirPiezas(List<Piece> p)

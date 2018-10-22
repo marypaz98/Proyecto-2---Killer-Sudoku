@@ -217,13 +217,34 @@ namespace Proyecto_2___Killer_Sudoku
              });
             return save.pos;
         }
-        public bool solvSudoku(int[,] matriz, int n, List<Piece> piece)
+ 
+
+        public bool agarrarPiezas(int[,] matriz, int n, List<Piece> piece)
         {
-            Piece pieza =new Piece(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
             bool isEmpty = true;
             int cont = 0;
-            int c = 0;
+            Piece pieza = new Piece(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
             foreach(Piece p in piece)
+            {
+                if (!p.resuelto && p.Figure != 1)
+                {
+                    pieza = p;
+                    isEmpty = false;
+                    break;
+                }
+                cont++;
+            }
+            if (isEmpty)
+            {
+                return true;
+            }
+            return solvSudoku(matriz, n, pieza, piece, cont);
+        }
+        public bool solvSudoku(int[,] matriz, int n, Piece pieza,List<Piece> piece, int cont)
+        {
+            int c = 0;
+            
+          /*  foreach(Piece p in piece)
             {
                 if (!p.resuelto&&p.Figure!=1)
                 {
@@ -233,12 +254,7 @@ namespace Proyecto_2___Killer_Sudoku
                     break;
                 }
                 cont++;
-            }
-
-            if (isEmpty)
-            {
-                return true;
-            }
+            }*/
             int r1 = pieza.cell1[0];
             int c1 = pieza.cell1[1];
             int r2 = pieza.cell2[0];
@@ -447,7 +463,7 @@ namespace Proyecto_2___Killer_Sudoku
                     matriz[pieza.cell4[0], pieza.cell4[1]] = cuatro;
                     pieza.resuelto = true;
                     piece.ElementAt(cont).resuelto = true;
-                    if(solvSudoku(matriz, n , piece))
+                    if(agarrarPiezas(matriz,n,piece))
                     {
                         return true;
                     }
@@ -470,7 +486,7 @@ namespace Proyecto_2___Killer_Sudoku
         public  void resolver()
         {
             int N = sudoku.GetLength(0);
-            if (solvSudoku(sudoku, N, piezas))
+            if (agarrarPiezas(sudoku, N, piezas))
             {
                 Imprimir(sudoku);
    

@@ -20,11 +20,11 @@ namespace Proyecto_2___Killer_Sudoku
         public Generador(int tam) {
             ColmAndRow = tam;
             NumberGenerator();
-            Imprimir(Numbers);
+         //   Imprimir(Numbers);
             Update(ColmAndRow+1);
             PieceGenerator();
             Clear();
-            Imprimir(Numbers);
+           // Imprimir(Numbers);
 
         }
 
@@ -89,7 +89,6 @@ namespace Proyecto_2___Killer_Sudoku
        
                 if (x != y )
                 {
-                    Console.WriteLine("Entró");
                     ChangeCells(x, y);
                 }
             }
@@ -111,7 +110,7 @@ namespace Proyecto_2___Killer_Sudoku
                     val = values(symbol);
                     if (!SearchCell(cell, i, j))
                     {
-                        Console.WriteLine(i + "." + j);
+    
                         switch (piece)
                         {
                             case 2:

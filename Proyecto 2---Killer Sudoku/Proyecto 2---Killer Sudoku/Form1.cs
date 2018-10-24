@@ -153,7 +153,11 @@ namespace Proyecto_2___Killer_Sudoku
             }
         private void ShowGameOtherPanel()
         {
-            _solver = new Solver(tamaño, _generador.Numbers);
+            TimeSpan stop;
+            TimeSpan start = new TimeSpan(DateTime.Now.Ticks);
+            _solver = new Solver(tamaño, hilos);
+            stop = new TimeSpan(DateTime.Now.Ticks);
+            Console.WriteLine(stop.Subtract(start).TotalMilliseconds);
             if (_solver.res == false)
             {
                 MessageBox.Show("No se encontró solución", "error");
@@ -249,25 +253,7 @@ namespace Proyecto_2___Killer_Sudoku
             }            
         }
         
-        private void Clear()
-        {
-            int[] simbolo = new int[_generador.contadordePiezas];
-            int[] resultado= new int[_generador.contadordePiezas];
-            int[,] celdas;
-            int cont = 0;
-            celdas= new int[_generador.ColmAndRow, _generador.ColmAndRow];
-            foreach(Piece pieza in _generador.pieces)
-            {
-                if (pieza.Figure != 1)
-                {
-                    resultado[cont]= _generador.Numbers[pieza.cell1[0], pieza.cell1[1]]+ _generador.Numbers[pieza.cell2[0], pieza.cell2[1]]
-                        + _generador.Numbers[pieza.cell3[0], pieza.cell3[1]]+ _generador.Numbers[pieza.cell4[0], pieza.cell4[1]];
-                    simbolo[cont] = pieza.symbol;
-                    celdas[pieza.cell1[0], pieza.cell1[1]] = resultado[cont];
-                    cont++;
-                }
-            }
-        }
+
  
         private TextBox GetTextBoxAt(int row, int clm)
         {
@@ -407,9 +393,8 @@ namespace Proyecto_2___Killer_Sudoku
                 PanelGenerador.AutoScroll = true;
                 
                 CreateTextBoxes();
-                
+
                 ShowGame();
-                Imprimir(_generador.Numbers);
                 archivoSudoku.WriteFile(_generador.sudoku, _generador.pieces, "killerSudoku");
                 
                
@@ -460,10 +445,8 @@ namespace Proyecto_2___Killer_Sudoku
             PanelResuelto.ColumnCount = tamaño;
             determinarAnchoPanelResuelto();
             PanelResuelto.AutoScroll = true;
-            CreateTextBoxes1();
-            Console.WriteLine("1 "+DateTime.Now.ToString("hh:mm"));
+            CreateTextBoxes1();            
             ShowGameOtherPanel();
-            Console.WriteLine("2 "+DateTime.Now.ToString("hh:mm"));
         }
     }
 }

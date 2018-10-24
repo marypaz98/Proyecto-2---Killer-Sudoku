@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Proyecto_2___Killer_Sudoku
 {
@@ -19,14 +20,16 @@ namespace Proyecto_2___Killer_Sudoku
         public bool res=true;
         private List<int[]> posibilidades;
         private List<savePossibilities> posListas;
+        private int hilos;
+        private bool resultado;
         
 
 
-        public Solver(int tam, int[,] s)
+        public Solver(int tam,  int h)
         {
             
             clmAndRow = tam;
-            Sudoku = s;
+            hilos = h;
             sudoku = new int[clmAndRow, clmAndRow];
             piezas = new List<Piece>();
             pieces = new int[clmAndRow, clmAndRow];
@@ -37,7 +40,14 @@ namespace Proyecto_2___Killer_Sudoku
             infoArchivo = archivoSudoku.ReadFile();
             getSudoku();
             listaPosibilidades(pos, "", 4, clmAndRow);
-              resolver();
+            if (hilos == 0)
+            {
+                resolver1();
+            }
+            else
+            {
+                resolver();
+            }
 
         }
         public String[] crearVector (int tam)
@@ -201,12 +211,19 @@ namespace Proyecto_2___Killer_Sudoku
         }
         private  bool buscarPosibilidades(int resultado, int simbolo)
         {
-           
-            if(posListas.Exists(x => x.resultado == resultado && x.simbolo==simbolo))
+            try
             {
-                return true;
+                if (posListas.Exists(x => x.resultado == resultado && x.simbolo == simbolo))
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch(Exception e)
+            {
+                return false;
+            }
+           
         }
         private List<int[]> devolverPosibilidades(int resultado, int simbolo)
         {
@@ -219,42 +236,29 @@ namespace Proyecto_2___Killer_Sudoku
         }
  
 
-        public bool agarrarPiezas(int[,] matriz, int n, List<Piece> piece)
-        {
-            bool isEmpty = true;
-            int cont = 0;
-            Piece pieza = new Piece(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-            foreach(Piece p in piece)
-            {
-                if (!p.resuelto && p.Figure != 1)
-                {
-                    pieza = p;
-                    isEmpty = false;
-                    break;
-                }
-                cont++;
-            }
-            if (isEmpty)
-            {
-                return true;
-            }
-            return solvSudoku(matriz, n, pieza, piece, cont);
-        }
-        public bool solvSudoku(int[,] matriz, int n, Piece pieza,List<Piece> piece, int cont)
+  
+       
+        public bool solvSudoku(int[,] matriz, int n,List<Piece> piece)
         {
             int c = 0;
-            
-          /*  foreach(Piece p in piece)
+            bool isEmpty=true;
+            int cont = 0;
+            Piece pieza = new Piece(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            foreach (Piece p in piece)
+              {
+                  if (!p.resuelto&&p.Figure!=1)
+                  {
+                      pieza = p;
+                      isEmpty = false;
+                      break;
+                  }
+                  cont++;
+              }
+            if (isEmpty)
             {
-                if (!p.resuelto&&p.Figure!=1)
-                {
-                    Console.WriteLine("a");
-                    pieza = p;
-                    isEmpty = false;
-                    break;
-                }
-                cont++;
-            }*/
+                resultado = true;
+                return true;
+            }
             int r1 = pieza.cell1[0];
             int c1 = pieza.cell1[1];
             int r2 = pieza.cell2[0];
@@ -463,9 +467,11 @@ namespace Proyecto_2___Killer_Sudoku
                     matriz[pieza.cell4[0], pieza.cell4[1]] = cuatro;
                     pieza.resuelto = true;
                     piece.ElementAt(cont).resuelto = true;
-                    if(agarrarPiezas(matriz,n,piece))
+                    if(solvSudoku(matriz,n,piece))
                     {
+                        resultado = true;
                         return true;
+                        
                     }
                     else
                     {
@@ -478,18 +484,40 @@ namespace Proyecto_2___Killer_Sudoku
                     }
                 }
             }
+            resultado = false;
             return false;
 
 
         }
-     
-        public  void resolver()
+
+        public void resolver()
         {
             int N = sudoku.GetLength(0);
-            if (agarrarPiezas(sudoku, N, piezas))
+            List<Task> TaskList = new List<Task>();
+            for (int i = 0; i < hilos; i++)
+            {
+                var LastTask = new Task(() => solvSudoku(sudoku, N, piezas));
+                LastTask.Start();
+                TaskList.Add(LastTask);
+            }
+            Task.WaitAll(TaskList.ToArray());
+            if (resultado)
             {
                 Imprimir(sudoku);
-   
+            }
+            else
+            {
+                res = false;
+                Console.WriteLine("No solución");
+            }
+        }
+        public void resolver1()
+        {
+            int N = sudoku.GetLength(0);
+            if (solvSudoku(sudoku, N, piezas))
+            {
+                Console.WriteLine("resolver 1");
+                Imprimir(sudoku);
             }
             else
             {
@@ -546,6 +574,7 @@ namespace Proyecto_2___Killer_Sudoku
 
         public void Imprimir(int[,] mat)
         {
+            Console.WriteLine("------------");
             for (int f = 0; f < mat.GetLength(0); f++)
             {
                 for (int c = 0; c < mat.GetLength(1); c++)
@@ -630,10 +659,6 @@ namespace Proyecto_2___Killer_Sudoku
         }
         private bool match_Piece(int[,] matriz,int v1, int v2, int v3, int v4,Piece p)
         {
-            /*    if (cont != clmAndRow*100000)
-                {
-                    return false;
-                }*/
             if (!matchOtherPiece(v1,v2,v3,v4,p))
             {
                 return false;
